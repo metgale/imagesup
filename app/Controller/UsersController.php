@@ -43,13 +43,13 @@ class UsersController extends AppController {
     public function login() {
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
-                $this->Session->setFlash('Uspješna prijava u sustav', 'success');
+                $this->Session->setFlash('Welcome back ' . $this->Auth->user('firstname'), 'success');
                 return $this->redirect(array(
                             'controller' => 'users',
                             'action' => 'index'
                 ));
             } else {
-                $this->Session->setFlash('Neuspješna prijava u sustav', 'error');
+                $this->Session->setFlash('Email/password incorrect. Try again.', 'error');
             }
         }
     }
@@ -59,7 +59,13 @@ class UsersController extends AppController {
      */
 
     public function logout() {
-        $this->redirect($this->Auth->logout());
+        if ($this->Auth->logout()) {
+            $this->Session->setFlash('Logout successful', 'success');
+            return $this->redirect(array(
+                        'controller' => 'users',
+                        'action' => 'login'
+            ));
+        }
     }
 
     /**
@@ -95,20 +101,13 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(
-                        __('The %s has been saved', __('user')), 'alert', array(
-                    'plugin' => 'TwitterBootstrap',
-                    'class' => 'alert-success'
-                        )
-                );
-                $this->redirect(array('action' => 'index'));
+                $this->Session->setFlash('Account successfully created. Please login.', 'success');
+                return $this->redirect(array(
+                            'controller' => 'users',
+                            'action' => 'index'
+                ));
             } else {
-                $this->Session->setFlash(
-                        __('The %s could not be saved. Please, try again.', __('user')), 'alert', array(
-                    'plugin' => 'TwitterBootstrap',
-                    'class' => 'alert-error'
-                        )
-                );
+                $this->Session->setFlash('Error occured. Please try again!', 'success');
             }
         }
     }

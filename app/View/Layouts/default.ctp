@@ -34,7 +34,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         ?>
     </head>
     <body>
-
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
@@ -53,14 +52,25 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                             <li class="active"><a href="#">Home</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">How it works</a></li>
-
                         </ul>
+                        <?php if (!AuthComponent::user()): ?>
+                            <ul class="nav pull-right">
+                                <li><a href="/users/login">Login</a></li>
+                                <li><a href="/users/add">Register</a></li>
+                            </ul>
+                        <?php else: ?>
+                            <ul class="nav pull-right">
+                                <li><a href='/albums/index'>Hello <?php echo AuthComponent::user('firstname')?></a></li>
+                                <li><a href="/users/logout">Logout</a></li>
+                            </ul>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
+        <?php echo $this->Session->flash(); ?>
         <div id="container">
-                <?php echo $this->fetch('content'); ?>
+            <?php echo $this->fetch('content'); ?>
         </div>
         <script type="text/javascript" src="/js/jquery.js"></script>
         <script type="text/javascript" src="/js/jquery.collapse.js"></script>

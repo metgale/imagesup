@@ -1,15 +1,14 @@
     <div class="span12">
-        <h1>Welcome</h1>
-        <?php
-        echo $this->Form->create('User', array('url' => '/users/login',
-        ));
-        echo $this->Form->input('email', array('label' => 'Email'));
-        echo $this->Form->input('password', array('label' => 'Password'));
-        $options = array(
-            'label' => 'Login',
-            'class' => 'btn btn-primary'
-        );
-        echo $this->Form->end($options);
-        ?>
+        <h1>Login</h1>
+        <hr>
+        <?php echo $this->Form->create('User', array('class' => 'form-horizontal')); 
+            echo $this->Form->input('email', array(
+                'required' => 'required'
+            ));
+            echo $this->Form->input('password', array(
+                'required' => 'required'
+            ));
+         echo $this->Form->submit(__('Login'), array('class' => 'btn btn-primary')); 
+         echo $this->Form->end(); ?>
     </div>
-
+  

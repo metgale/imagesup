@@ -36,13 +36,12 @@ class AppController extends Controller {
         'Session',
         'RequestHandler',
         'Auth' => array(
-            'authenticate' => array('Form' => array(
-                    'fields' => array('username' => 'email'))),
             'loginAction' => array('controller' => 'users', 'action' => 'login'),
             'authError' => 'Did you really think you are allowed to see that?',
             'logoutRedirect' => 'users/login',
+            'authenticate' => array('Form' => array(
+                    'fields' => array('username' => 'email', 'password' => 'password')))
     ));
-    
     public $helpers = array(
         'Session',
         'Html' => array('className' => 'TwitterBootstrap.BootstrapHtml'),
