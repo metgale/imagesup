@@ -27,7 +27,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         </title>
         <?php
         echo $this->Html->meta('icon');
-        echo $this->Html->css(array('bootstrap.min', 'bootstrap-responsive.min'));
+        echo $this->Html->css(array('bootstrap.min', 'bootstrap-responsive.min', 'custom'));
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
@@ -49,9 +49,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                     <div class="nav-collapse collapse">
                         <!-- .nav, .navbar-search, .navbar-form, etc -->
                         <ul class="nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">How it works</a></li>
+                            <li ><a href="/albums/index">Home</a></li>
+                            <li><a href="/pages/aboutus">About Us</a></li>
+                            <li><a href="/pages/howitworks">How it works</a></li>
                         </ul>
                         <?php if (!AuthComponent::user()): ?>
                             <ul class="nav pull-right">

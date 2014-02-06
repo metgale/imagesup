@@ -45,7 +45,7 @@ class UsersController extends AppController {
             if ($this->Auth->login()) {
                 $this->Session->setFlash('Welcome back ' . $this->Auth->user('firstname'), 'success');
                 return $this->redirect(array(
-                            'controller' => 'users',
+                            'controller' => 'albums',
                             'action' => 'index'
                 ));
             } else {
