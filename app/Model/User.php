@@ -7,8 +7,9 @@ App::uses('AppModel', 'Model');
  *
  */
 class User extends AppModel {
-     public $displayField = 'lastname';
-    
+
+    public $displayField = 'lastname';
+    var $actsAs = array('Containable');
 
     /**
      * Validation rules

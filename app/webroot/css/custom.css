@@ -11,3 +11,11 @@ and open the template in the editor.
 .row-fluid{
     padding:15px;
 }
+
+
+.admin .green{
+    color:#47cb2a;
+}
+.admin .red{
+    color:red;
+}

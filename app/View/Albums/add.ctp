@@ -4,7 +4,7 @@
 			<fieldset>
 				<legend><?php echo __('Add %s', __('Album')); ?></legend>
 				<?php
-				echo $this->BootstrapForm->input('userId', array(
+				echo $this->BootstrapForm->input('user_id', array(
                                         'type' => 'hidden',
                                         'value' => AuthComponent::user('id'),
 					'required' => 'required',

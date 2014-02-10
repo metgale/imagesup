@@ -12,7 +12,7 @@ class AlbumFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'userId' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'title' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
@@ -29,7 +29,7 @@ class AlbumFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'userId' => 1,
+			'user_id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'created' => '2014-02-06 09:14:26'
 		),

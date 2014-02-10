@@ -80,7 +80,7 @@ class SharingsController extends AppController {
                 );
             }
         }
-        $album = $this->Sharing->Album->find('first', $id);
+        $album = $this->Sharing->Album->findById($id);
         $this->set('album', $album);
         $this->loadModel('User');
         $options = array(

@@ -7,9 +7,9 @@
 				<?php echo h($album['Album']['id']); ?>
 				&nbsp;
 			</dd>
-			<dt><?php echo __('UserId'); ?></dt>
+			<dt><?php echo __('user_id'); ?></dt>
 			<dd>
-				<?php echo h($album['Album']['userId']); ?>
+				<?php echo h($album['Album']['user_id']); ?>
 				&nbsp;
 			</dd>
 			<dt><?php echo __('Title'); ?></dt>
