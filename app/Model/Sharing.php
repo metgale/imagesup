@@ -9,7 +9,6 @@ App::uses('AppModel', 'Model');
  */
 class Sharing extends AppModel {
 
-    var $actsAs = array('Containable');
 
     /**
      * Validation rules

@@ -62,30 +62,57 @@ class SharingsController extends AppController {
      */
     public function add($id) {
         if ($this->request->is('post')) {
-            $this->Sharing->create();
-            if ($this->Sharing->save($this->request->data)) {
+            $options = array(
+                'conditions' => array(
+                    'Sharing.album_id' => $this->request->data['Sharing']['album_id'],
+                    'Sharing.manager' => $this->request->data['Sharing']['manager']
+            ));
+            $exists = $this->Sharing->find('first', $options);
+           
+          
+            if (!empty($exists)) {
                 $this->Session->setFlash(
-                        __('Album succesfully shared with the choosen doctor.'), 'alert', array(
-                    'plugin' => 'TwitterBootstrap',
-                    'class' => 'alert-success'
-                        )
-                );
-                $this->redirect(array('controller' => 'albums', 'action' => 'index'));
-            } else {
-                $this->Session->setFlash(
-                        __('Error occurred. Album not saved.'), 'alert', array(
+                        __('Album already shared with choosen doctor!'), 'alert', array(
                     'plugin' => 'TwitterBootstrap',
                     'class' => 'alert-error'
                         )
                 );
+                $this->redirect(array('controller' => 'albums', 'action' => 'index'));
+            } else {
+                $this->Sharing->create();
+                if ($this->Sharing->save($this->request->data)) {
+                    $this->Session->setFlash(
+                            __('Album succesfully shared with the choosen doctor.'), 'alert', array(
+                        'plugin' => 'TwitterBootstrap',
+                        'class' => 'alert-success'
+                            )
+                    );
+                    $this->redirect(array('controller' => 'albums', 'action' => 'index'));
+                } else {
+                    $this->Session->setFlash(
+                            __('Error occurred. Album not saved.'), 'alert', array(
+                        'plugin' => 'TwitterBootstrap',
+                        'class' => 'alert-error'
+                            )
+                    );
+                }
             }
         }
-        $album = $this->Sharing->Album->findById($id);
+        $options = array(
+            'contain' => array('Sharing'),
+            'conditions' => array(
+                'Album.id' => $id
+            )
+        );
+        $album = $this->Sharing->Album->find('first', $options);
         $this->set('album', $album);
+
+
         $this->loadModel('User');
         $options = array(
             'User.userType' != 1
         );
+
         $manager = $this->User->find('list', $options);
         $this->set('manager', $manager);
     }

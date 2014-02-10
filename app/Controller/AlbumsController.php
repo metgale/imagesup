@@ -41,12 +41,12 @@ class AlbumsController extends AppController {
             $this->paginate = array(
                 'limit' => 20,
                 'order' => 'Album.created DESC',
+                'contain' => 'Sharing',
                 'conditions' => array(
                     'Album.user_id' => $this->Auth->user('id')
                 )
             );
             $this->set('albums', $this->paginate());
-            
         } else {
             $this->paginate = array(
                 'Sharing' => array(
@@ -54,22 +54,26 @@ class AlbumsController extends AppController {
                         'Sharing.manager' => $this->Auth->user('id'),
                         'Sharing.active' => 1
                     ),
-                    'limit' => 10,
+                    'contain' => 'Album',
+                    'limit' => 10
             ));
             $sharings = $this->paginate('Sharing');
             $this->set(compact('sharings'));
-            
-            $this->paginate = array(
-                'Sharing' => array(
-                    'conditions' => array(
-                        'Sharing.manager' => $this->Auth->user('id'),
-                        'Sharing.active' => 0
-                    ),
-                    'limit' => 10,
-            ));
-            $inactivesharings = $this->paginate('Sharing');
-            $this->set(compact('inactivesharings'));
         }
+    }
+
+    public function archive() {
+        $this->paginate = array(
+            'Sharing' => array(
+                'conditions' => array(
+                    'Sharing.manager' => $this->Auth->user('id'),
+                    'Sharing.active' => 0
+                ),
+                'contain' => 'Album',
+                'limit' => 10
+        ));
+        $inactivesharings = $this->paginate('Sharing');
+        $this->set(compact('inactivesharings'));
     }
 
     /**
@@ -79,11 +83,35 @@ class AlbumsController extends AppController {
      * @return void
      */
     public function view($id = null) {
-        $this->Album->id = $id;
-        if (!$this->Album->exists()) {
-            throw new NotFoundException(__('Invalid %s', __('album')));
+        if (!$this->Album->exists($id)) {
+            throw new NotFoundException(__('Invalid Album'));
         }
-        $this->set('album', $this->Album->read(null, $id));
+        $options = array('conditions' => array('Album.' . $this->Album->primaryKey => $id));
+        $this->set('album', $this->Album->find('first', $options));
+
+
+        $this->set('sharing', $this->Album->Sharing->findById($this->request->query('sharing_id')));
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            if ($this->Album->Sharing->save($this->request->data)) {
+                $this->Session->setFlash(
+                        __('The %s has been saved', __('album')), 'alert', array(
+                    'plugin' => 'TwitterBootstrap',
+                    'class' => 'alert-success'
+                        )
+                );
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(
+                        __('The %s could not be saved. Please, try again.', __('album')), 'alert', array(
+                    'plugin' => 'TwitterBootstrap',
+                    'class' => 'alert-error'
+                        )
+                );
+            }
+        } else {
+            $this->request->data = $this->Album->Sharing->read(null, $id);
+        }
     }
 
     /**

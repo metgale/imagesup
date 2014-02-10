@@ -9,7 +9,6 @@ App::uses('AppModel', 'Model');
  */
 class Album extends AppModel {
 
-    var $actsAs = array('Containable');
 
     /**
      * Validation rules

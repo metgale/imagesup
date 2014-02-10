@@ -13,9 +13,14 @@ and open the template in the editor.
 }
 
 
-.admin .green{
+.green{
     color:#47cb2a;
 }
-.admin .red{
+
+.red{
     color:red;
 }
+.admin table{
+    margin-top:20px;
+}
+

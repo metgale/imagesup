@@ -1,7 +1,6 @@
-<div class="row-fluid admin">
+<div class="row-fluid archive">
     <div class="span12">
-        <h2 class="green">Active albums shared with you</h2>
-        <a href="/albums/archive">Click here to see archive</a>
+        <h2 class="red">Archive</h2>
         <table class="table">
             <tr>
                 <th><?php echo $this->BootstrapPaginator->sort('title'); ?></th>
@@ -9,14 +8,13 @@
                 <th><?php echo $this->BootstrapPaginator->sort('shared'); ?></th>
                 <th class="actions"><?php echo __('Actions'); ?></th>
             </tr>
-            <?php foreach ($sharings as $sharing): ?>
+            <?php foreach ($inactivesharings as $inactivesharing): ?>
                 <tr>
-                    <td><?php echo h($sharing['Album']['title']); ?>&nbsp;</td>
-                    <td><?php echo h($sharing['Album']['created']); ?>&nbsp;</td>
-                    <td><?php echo h($sharing['Sharing']['created']); ?>&nbsp;</td>
+                    <td><?php echo h($inactivesharing['Album']['title']); ?>&nbsp;</td>
+                    <td><?php echo h($inactivesharing['Album']['created']); ?>&nbsp;</td>
+                    <td><?php echo h($inactivesharing['Sharing']['created']); ?>&nbsp;</td>
                     <td class="actions">
-                        <?php echo $this->Html->link(__('View'), array('action' => 'view', $sharing['Album']['id'], '?' => array('sharing_id' => $sharing['Sharing']['id']))); ?>
-
+                        <?php echo $this->Html->link(__('View'), array('action' => 'view', $inactivesharing['Album']['id'], '?' => array('sharing_id' => $inactivesharing['Sharing']['id']))); ?>
                     </td>
                 <?php endforeach; ?>
             </tr>
