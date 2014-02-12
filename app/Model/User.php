@@ -67,6 +67,13 @@ class User extends AppModel {
             ),
         ),
     );
+    public $hasMany = array(
+        'Album' => array(
+            'className' => 'Album',
+            'foreignKey' => 'album_id',
+         
+        )       
+    );
 
     public function beforeSave($options = array()) {
         if (isset($this->data['User']['password'])) {

@@ -14,6 +14,7 @@
                     <td><?php echo h($sharing['Album']['title']); ?>&nbsp;</td>
                     <td><?php echo h($sharing['Album']['created']); ?>&nbsp;</td>
                     <td><?php echo h($sharing['Sharing']['created']); ?>&nbsp;</td>
+
                     <td class="actions">
                         <?php echo $this->Html->link(__('View'), array('action' => 'view', $sharing['Album']['id'], '?' => array('sharing_id' => $sharing['Sharing']['id']))); ?>
 

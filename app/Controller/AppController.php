@@ -40,13 +40,12 @@ class AppController extends Controller {
             'authError' => 'Did you really think you are allowed to see that?',
             'logoutRedirect' => 'users/login',
             'authenticate' => array('Form' => array(
-                    'fields' => array('username' => 'email', 'password' => 'password')))
-    ));
+                    'fields' => array('username' => 'email', 'password' => 'password'))))
+    );
     public $helpers = array(
         'Session',
         'Html' => array('className' => 'TwitterBootstrap.BootstrapHtml'),
         'Form' => array('className' => 'TwitterBootstrap.BootstrapForm'),
         'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator'),
     );
-
 }

@@ -61,6 +61,9 @@ class AlbumsController extends AppController {
             $this->set(compact('sharings'));
         }
     }
+    public function imageview(){
+        
+    }
 
     public function archive() {
         $this->paginate = array(
@@ -121,15 +124,16 @@ class AlbumsController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
+            $this->log($this->request->data);
             $this->Album->create();
             if ($this->Album->save($this->request->data)) {
                 $this->Session->setFlash(
-                        __('The %s has been saved', __('album')), 'alert', array(
+                        __('The %s has been saved, please add some photos', __('album')), 'alert', array(
                     'plugin' => 'TwitterBootstrap',
                     'class' => 'alert-success'
                         )
                 );
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(array('action' => 'edit', $this->Album->id));
             } else {
                 $this->Session->setFlash(
                         __('The %s could not be saved. Please, try again.', __('album')), 'alert', array(
@@ -148,11 +152,15 @@ class AlbumsController extends AppController {
      * @return void
      */
     public function edit($id = null) {
+        
         $this->Album->id = $id;
+        $this->set('album', $this->Album->findById($id));
         if (!$this->Album->exists()) {
             throw new NotFoundException(__('Invalid %s', __('album')));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
+            debug($this->request->data);
+            die;
             if ($this->Album->save($this->request->data)) {
                 $this->Session->setFlash(
                         __('The %s has been saved', __('album')), 'alert', array(

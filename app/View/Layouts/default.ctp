@@ -17,6 +17,7 @@
  */
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,6 +33,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->fetch('css');
         echo $this->fetch('script');
         ?>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.fileupload.js"></script>
+        <script type="text/javascript" src="/js/jquery.iframe-transport.js"></script>
+        <script type="text/javascript" src="/js/vendor/jquery.ui.widget.js"></script>
+
     </head>
     <body>
         <div class="navbar">
@@ -44,7 +52,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                         <span class="icon-bar"></span>
                     </a>
                     <!-- Be sure to leave the brand out there if you want it shown -->
-                    <a class="brand" href="#">Image uploader</a>
+                    <a class="brand" href="/albums/index">Image uploader</a>
                     <!-- Everything you want hidden at 940px or less, place within here -->
                     <div class="nav-collapse collapse">
                         <!-- .nav, .navbar-search, .navbar-form, etc -->
@@ -60,7 +68,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                             </ul>
                         <?php else: ?>
                             <ul class="nav pull-right">
-                                <li><a href='/albums/index'>Hello <?php echo AuthComponent::user('firstname')?></a></li>
+                                <li><a href='/albums/index'>Hello <?php echo AuthComponent::user('firstname') ?></a></li>
                                 <li><a href="/users/logout">Logout</a></li>
                             </ul>
                         <?php endif; ?>
@@ -72,9 +80,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <div id="container">
             <?php echo $this->fetch('content'); ?>
         </div>
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/jquery.collapse.js"></script>
-        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+      
 
     </body>
 </html>
