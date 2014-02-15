@@ -6,7 +6,7 @@ $(document).ready(function() {
                 $("#myimg").css("-webkit-filter", "brightness(" + qq + "%)");
             });
 
-    $("#slider-saturation").slider({value: 50})
+    $("#slider-saturation").slider({value: 50, max: 100})
             .bind("slide", function(event, ui) {
                 var value = $("#slider-saturation").slider("value");
                 var qq = value * 2;
@@ -39,4 +39,5 @@ $(document).ready(function() {
                 var qq = value * 2;
                 $("#myimg").css("-webkit-filter", "contrast(" + qq + "%)");
             });
-})
+    $("#myimg").imageLens({lensSize: 200});
+});

@@ -77,6 +77,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         </div>
     </body>
     <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.imageLens.js"></script>
     <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
     <script type="text/javascript" src="/js/jquery.collapse.js"></script>

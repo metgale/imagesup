@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+	<title>The HTML5 Herald</title>
+
+	<meta name="description" content="The HTML5 Herald">
+	<meta name="author" content="SitePoint">
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <style>#slider { margin: 10px; }	</style>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+	<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+	
+<div class="magnify">
+	
+	<!-- This is the magnifying glass which will contain the original/large version -->
+	<div class="large"></div>
+		
+	<!-- This is the small image -->
+	<img id="myimg" class="small" src="http://thecodeplayer.com/uploads/media/iphone.jpg" width="200"/>
+	
+</div>
+
+
+	<div style="width: 200px; margin: auto;">
+		brightness: <div id="slider-brightness"></div>
+		<br/>
+		saturation: <div id="slider-saturation"></div>
+	</div>
+	
+	<br/><br/>	
+	
+<script src="scripts.js"></script>
+
+</body>
+</html>
