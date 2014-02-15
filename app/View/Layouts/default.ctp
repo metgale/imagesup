@@ -21,6 +21,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <!DOCTYPE html>
 <html>
     <head>
+
         <?php echo $this->Html->charset(); ?>
         <title>
             <?php echo $cakeDescription ?>:
@@ -28,17 +29,11 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         </title>
         <?php
         echo $this->Html->meta('icon');
-        echo $this->Html->css(array('bootstrap.min', 'bootstrap-responsive.min', 'custom'));
+        echo $this->Html->css(array('bootstrap.min', 'bootstrap-responsive.min', 'custom', 'jquery-ui-1.10.4.custom.min'));
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
         ?>
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/jquery.collapse.js"></script>
-        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/js/jquery.fileupload.js"></script>
-        <script type="text/javascript" src="/js/jquery.iframe-transport.js"></script>
-        <script type="text/javascript" src="/js/vendor/jquery.ui.widget.js"></script>
 
     </head>
     <body>
@@ -80,7 +75,14 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <div id="container">
             <?php echo $this->fetch('content'); ?>
         </div>
-      
-
     </body>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script type="text/javascript" src="/js/scripts.js"></script>
+    <script type="text/javascript" src="/js/jquery.collapse.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="/js/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="/js/vendor/jquery.ui.widget.js"></script>
+
 </html>

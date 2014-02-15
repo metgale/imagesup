@@ -23,4 +23,26 @@ and open the template in the editor.
 .admin table{
     margin-top:20px;
 }
+.gallery{
+    border-right:1px solid black;
+    padding:15px;
+    height:600px;
+    overflow: scroll;
+}
 
+
+.gallery img{
+    padding:5px;
+
+
+}
+
+img {  
+    -webkit-filter: brightness(80%);   
+}  
+.controls{
+    padding-top:50px;
+}
+.imageview{
+    padding-left:30px;
+}

@@ -9,7 +9,10 @@ App::uses('AppController', 'Controller');
  * @property PaginatorComponent $Paginator
  */
 class AlbumsController extends AppController {
-
+    public function beforeFilter() {
+        $this->Auth->allow('all');
+        parent::beforeFilter();
+    }
     /**
      *  Layout
      *
