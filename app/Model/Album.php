@@ -58,7 +58,20 @@ class Album extends AppModel {
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => ''
-        )       
+        ),
+		'Upload' => array(
+            'className' => 'Upload',
+            'foreignKey' => 'album_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
     );
      public $belongsTo = array(
         'User' => array(
@@ -69,4 +82,13 @@ class Album extends AppModel {
             'order' => ''
         ));
 
+	public function uploadedFiles($albumId) {
+		$files = $this->Upload->find('all', array(
+			'conditions' => array('Upload.album_id' => $albumId),
+			'order' => 'Upload.id DESC'
+		));
+
+		return $files;
+		
+	}
 }

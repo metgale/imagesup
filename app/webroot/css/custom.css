@@ -37,12 +37,44 @@ and open the template in the editor.
 
 }
 
-img {  
-    -webkit-filter: brightness(80%);   
-}  
-.controls{
+
+#myimg{
+    max-width: 400px;
+}
+.galleryimg{
+    padding:5px;
+    max-width: 150px;
+}
+
+
+.image-controls{
     padding-top:50px;
 }
+
+
 .imageview{
     padding-left:30px;
+}
+
+
+.fileupload-progress {
+	margin: 10px 0;
+}
+.fileupload-progress .progress-extended {
+	margin-top: 5px;
+}
+.error {
+  color: red;
+}
+
+.prevnext{
+    padding-top:50px;
+}
+.prevnext li{
+    list-style-type: none;
+    display:inline;
+    padding:20px;   
+}
+.prevnext li a{
+    font-size:60px;
 }

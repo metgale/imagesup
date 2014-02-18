@@ -1,6 +1,10 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('File', 'Utility');
+App::uses('Folder', 'Utility');
+App::uses('Sanitize', 'Utility');
+require_once APP . 'Vendor' . DS . 'PHPThumb' . DS . 'ThumbLib.inc.php';
 
 /**
  * Albums Controller
@@ -9,10 +13,12 @@ App::uses('AppController', 'Controller');
  * @property PaginatorComponent $Paginator
  */
 class AlbumsController extends AppController {
+
     public function beforeFilter() {
         $this->Auth->allow('all');
         parent::beforeFilter();
     }
+
     /**
      *  Layout
      *
@@ -64,7 +70,8 @@ class AlbumsController extends AppController {
             $this->set(compact('sharings'));
         }
     }
-    public function imageview(){
+
+    public function imageview() {
         
     }
 
@@ -92,8 +99,21 @@ class AlbumsController extends AppController {
         if (!$this->Album->exists($id)) {
             throw new NotFoundException(__('Invalid Album'));
         }
-        $options = array('conditions' => array('Album.' . $this->Album->primaryKey => $id));
+        $options = array(
+            'contain' => 'Upload',
+            'conditions' => array('Album.' . $this->Album->primaryKey => $id));
         $this->set('album', $this->Album->find('first', $options));
+
+
+        $this->paginate = array(
+            'limit' => 1,
+            'order' => 'Upload.created ASC',
+            'conditions' => array(
+                'Upload.album_id' => $id
+            )
+        );
+        $this->set('images', $this->paginate('Upload'));
+
 
 
         $this->set('sharing', $this->Album->Sharing->findById($this->request->query('sharing_id')));
@@ -155,15 +175,16 @@ class AlbumsController extends AppController {
      * @return void
      */
     public function edit($id = null) {
-        
         $this->Album->id = $id;
         $this->set('album', $this->Album->findById($id));
         if (!$this->Album->exists()) {
             throw new NotFoundException(__('Invalid %s', __('album')));
         }
+
+        $files = (array) $this->Album->uploadedFiles($id);
+        $this->set(compact('files'));
+
         if ($this->request->is('post') || $this->request->is('put')) {
-            debug($this->request->data);
-            die;
             if ($this->Album->save($this->request->data)) {
                 $this->Session->setFlash(
                         __('The %s has been saved', __('album')), 'alert', array(
@@ -215,6 +236,128 @@ class AlbumsController extends AppController {
                 )
         );
         $this->redirect(array('action' => 'index'));
+    }
+
+    public function upload() {
+        // $this->log($this->request);
+        if (env('SERVER_ADDR') === '127.0.0.1') {
+            sleep(2);
+        }
+        $this->autoRender = false;
+        if (!$this->request->is('post')) {
+            throw new BadRequestException();
+        }
+
+        if (empty($this->request->data['Album']['id'])) {
+            throw new BadRequestException('Missing album ID');
+        }
+        $albumId = (int) $this->request->data['Album']['id'];
+        $album = $this->Album->find('first', array(
+            'conditions' => array(
+                'id' => $albumId,
+                'user_id' => $this->Auth->user('id')
+            )
+        ));
+        if (empty($album)) {
+            throw new NotFoundException();
+        }
+
+        $path = WWW_ROOT . 'img' . DS . $albumId . DS;
+        try {
+            $name = $this->_uploadFile($this->request->params['form']['files'], $path);
+        } catch (Exception $e) {
+            $this->log(array($e->getMessage(), $e->getTraceAsString(), $this->request));
+        }
+
+        $response = new stdClass();
+        if (empty($name)) {
+            $response->error = 'abort';
+            echo json_encode(array('files' => $response));
+            return false;
+        }
+
+        $file = new File($path . $name);
+        $data = array(
+            'album_id' => $albumId,
+            'user_id' => $this->Auth->user('id'),
+            'name' => $name,
+            'size' => $file->size(),
+            'type' => $file->mime(),
+        );
+        if (!$this->Album->Upload->save($data)) {
+            $this->log('Cannot save Upload. ' . json_encode($this->Album->Upload->validationErrors));
+        }
+
+        $response->name = $name;
+        echo json_encode(array('files' => array($response)));
+    }
+
+    protected function _uploadFile($file, $path) {
+        if (empty($file['name'][0]) || $file['error'][0] !== 0) {
+            throw new InvalidArgumentException('Missing file name');
+        }
+
+        if (!is_file($file['tmp_name'][0])) {
+            throw new RuntimeException('Invalid tmp file');
+        }
+
+        $folder = new Folder($path, true, '755');
+        if ($folder->errors()) {
+            throw new RuntimeException(implode('.', $folder->errors()));
+        }
+
+        $name = uniqid() . '_' . Sanitize::paranoid($file['name'][0], array('-', '_', '.'));
+        if (!move_uploaded_file($file['tmp_name'][0], $path . $name)) {
+            throw new RuntimeException('Cannot move tmp file');
+        }
+        chmod($path . $name, 0777);
+
+        if ($file['type'][0] === 'archive/zip') {
+            // unzip
+            // foreach files
+        }
+
+        if (in_array($file['type'][0], array('image/jpeg', 'image/png'))) {
+            $this->resize($name, $path);
+        }
+
+        return $name;
+    }
+
+    /**
+     * List album files
+     *
+     * @param type $albumId
+     * @return array
+     */
+    public function files($albumId) {
+        $files = (array) $this->Album->uploadedFiles($albumId);
+        $this->set(compact('files'));
+
+        $this->viewPath = 'Elements';
+        $this->render('files');
+    }
+
+    /**
+     * Create thumb_imagename.jpg
+     * @param type $name
+     * @param type $path
+     * @return boolean
+     */
+    protected function resize($name, $path) {
+        $image = $path . 'thumb_' . $name;
+        try {
+            $thumb = PhpThumbFactory::create($path . $name);
+            $thumb->adaptiveResize(175, 175);
+            $thumb->show();
+            $thumb->save($image);
+            chmod($image, 0777);
+        } catch (Exception $e) {
+            $this->log($e->getMessage());
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -21,7 +21,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <!DOCTYPE html>
 <html>
     <head>
-
         <?php echo $this->Html->charset(); ?>
         <title>
             <?php echo $cakeDescription ?>:
@@ -29,12 +28,17 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         </title>
         <?php
         echo $this->Html->meta('icon');
-        echo $this->Html->css(array('bootstrap.min', 'bootstrap-responsive.min', 'custom', 'jquery-ui-1.10.4.custom.min'));
+        echo $this->Html->css(array(
+			'bootstrap.min',
+			'bootstrap-responsive.min',
+			'jquery.fileupload',
+			'jquery-ui-1.10.4.custom.min',
+			'custom',
+		));
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
         ?>
-
     </head>
     <body>
         <div class="navbar">
@@ -75,15 +79,40 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <div id="container">
             <?php echo $this->fetch('content'); ?>
         </div>
-    </body>
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/jquery.imageLens.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script type="text/javascript" src="/js/scripts.js"></script>
-    <script type="text/javascript" src="/js/jquery.collapse.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.fileupload.js"></script>
-    <script type="text/javascript" src="/js/jquery.iframe-transport.js"></script>
-    <script type="text/javascript" src="/js/vendor/jquery.ui.widget.js"></script>
 
+		<script src="/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.imageLens.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<script type="text/javascript" src="/js/scripts.js"></script>
+		 <script type="text/javascript" src="/js/jquery.collapse.js"></script>
+		 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+ 
+		<!-- uploader -->
+		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+		<script src="/js/vendor/jquery.ui.widget.js"></script>
+		<!-- The Templates plugin is included to render the upload/download listings -->
+		<script src="/js/tmpl.min.js"></script>
+		<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+		<script src="/js/load-image.min.js"></script>
+		<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+		<script src="/js/canvas-to-blob.min.js"></script>
+		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+		<script src="/js/jquery.iframe-transport.js"></script>
+		<!-- The basic File Upload plugin -->
+		<script src="/js/jquery.fileupload.js"></script>
+		<!-- The File Upload processing plugin -->
+		<script src="/js/jquery.fileupload-process.js"></script>
+		<!-- The File Upload image preview & resize plugin -->
+		<script src="/js/jquery.fileupload-image.js"></script>
+		<!-- The File Upload audio preview plugin -->
+		<script src="/js/jquery.fileupload-audio.js"></script>
+		<!-- The File Upload video preview plugin -->
+		<script src="/js/jquery.fileupload-video.js"></script>
+		<!-- The File Upload validation plugin -->
+		<script src="/js/jquery.fileupload-validate.js"></script>
+		<!-- The File Upload user interface plugin -->
+		<script src="/js/jquery.fileupload-ui.js"></script>
+		<!-- The main application script -->
+		<script src="/js/main.js"></script>
+    </body>
 </html>

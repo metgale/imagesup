@@ -10,7 +10,7 @@
                     echo $this->BootstrapForm->input('id', array(
                         'required' => 'required',
                         'type' => 'hidden',
-                        'value' =>  $sharing['Sharing']['id']
+                        'value' => $sharing['Sharing']['id']
                     ));
                     echo $this->BootstrapForm->input('active', array(
                         'required' => 'required',
@@ -34,4 +34,45 @@
             </div>
         <?php endif; ?>
     </div>
+    <div class="span12">
+
+        <div class="span2 gallery">
+            <h2>Album</h2>
+            <?php foreach ($album['Upload'] as $img): ?>         
+                <?php echo $this->Html->Image('/img/' . $img['album_id'] . '/' . $img['name'], array('action' => 'view', $album['Album']['id'] . '/page'), array('class' => 'galleryimg')); ?>
+            <?php endforeach; ?>
+        </div>
+        <div class="span10">
+            <div class="span5 imageview">
+                <h1>Image</h1>
+                <?php echo $this->Html->Image('/img/' . $images[0]['Upload']['album_id'] . '/' . $images[0]['Upload']['name'], array('id' => 'myimg')); ?>
+            </div>
+
+            <div class="image-controls span7">
+                <div class="span3">
+                    <p>Brightness:</p> <div id="slider-brightness"></div>
+                    <br>
+                    <p>Saturation:</p> <div id="slider-saturation"></div>
+                    <br>
+                    <p>Contrast:</p> <div id="slider6"></div>
+                    <br>
+                </div>
+                <div class="span3">
+                    <p>Sepia:</p> <div id="slider4"></div>
+                    <br>
+                    <p>Invert:</p> <div id="slider5"></div>
+                    <br>
+                    <p>Grayscale:</p> <div id="slider3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="prevnext text-center span4">
+            <?php
+            echo $this->Paginator->prev('<');
+            echo $this->Paginator->next('>');
+            ?>
+        </div>
+    </div>
+
+
 </div>
