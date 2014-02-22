@@ -125,7 +125,6 @@ class AlbumsController extends AppController {
             throw new NotFoundException(__('Invalid Album'));
         }
 
-        //GALLERY
         if (empty($folderId)) {
             $folderid = null;
         }
@@ -137,7 +136,6 @@ class AlbumsController extends AppController {
         ));
         $this->set('album', $album);
 
-        //IMAGE VIEW
         $options = array(
             'conditions' => array(
                 'Upload.album_id' => $id,
@@ -154,7 +152,7 @@ class AlbumsController extends AppController {
                     'Upload.folder' => $folderId
             ));
         }
-        $image = $this->Album->Upload->find('all', $options);
+        $image = $this->Album->Upload->find('first', $options);
         $this->set('image', $image);
     }
 
