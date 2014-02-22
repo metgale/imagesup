@@ -8,8 +8,8 @@ and open the template in the editor.
     Author     : korisnik
 */
 
-.row-fluid{
-    padding:15px;
+#container{
+    padding:  0 15px 15px 15px;
 }
 
 
@@ -24,31 +24,25 @@ and open the template in the editor.
     margin-top:20px;
 }
 .gallery{
-    border-right:1px solid black;
-    padding:15px;
-    height:600px;
-    overflow: scroll;
+   height: 530px;
+    overflow: auto;
 }
-
 
 .gallery img{
-    padding:5px;
-
-
+    padding:  5px 0 5px 0;
 }
-
 
 #myimg{
     max-width: 400px;
 }
 .galleryimg{
-    padding:5px;
-    max-width: 150px;
+  
+  
 }
 
-
 .image-controls{
-    padding-top:50px;
+    margin-top: 10px;
+	padding-bottom: 30px;
 }
 
 
@@ -64,7 +58,7 @@ and open the template in the editor.
 	margin-top: 5px;
 }
 .error {
-  color: red;
+	color: red;
 }
 
 .prevnext{

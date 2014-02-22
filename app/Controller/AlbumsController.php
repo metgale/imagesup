@@ -65,7 +65,7 @@ class AlbumsController extends AppController {
                         'Sharing.manager' => $this->Auth->user('id'),
                         'Sharing.active' => 1
                     ),
-                    'contain' => 'Album',
+                    'contain' => array('Album' => array('User')),
                     'limit' => 10
             ));
             $sharings = $this->paginate('Sharing');
@@ -84,7 +84,7 @@ class AlbumsController extends AppController {
                     'Sharing.manager' => $this->Auth->user('id'),
                     'Sharing.active' => 0
                 ),
-                'contain' => 'Album',
+                'contain' => array('Album' => array('User')),
                 'limit' => 10
         ));
         $inactivesharings = $this->paginate('Sharing');
@@ -125,6 +125,24 @@ class AlbumsController extends AppController {
             throw new NotFoundException(__('Invalid Album'));
         }
 
+        $album = $this->Album->find('first', array(
+            'conditions' => array('Album.' . $this->Album->primaryKey => $id),
+            'contain' => array('Upload')
+        ));
+
+        $arrayfolders = array();
+        $arrayimages = array();
+        foreach ($album['Upload'] as $image) {
+
+            if ($image['folder'] != null) {
+                $folder = $image['folder'];
+                array_push($arrayfolders, $folder);
+            }
+        }
+        $folders = array_unique($arrayfolders);
+        $this->set('folders', $folders);
+        $this->set('id', $id);
+
         if (empty($folderId)) {
             $folderid = null;
         }
@@ -148,12 +166,21 @@ class AlbumsController extends AppController {
             $options = array(
                 'conditions' => array(
                     'Upload.id' => $imgid,
+                    'Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
                     'Upload.album_id' => $id,
                     'Upload.folder' => $folderId
             ));
         }
         $image = $this->Album->Upload->find('first', $options);
         $this->set('image', $image);
+        $neighbors = $this->Album->Upload->find('neighbors', array(
+            'field' => 'id',
+            'value' => $image['Upload']['id'],
+            'fields' => array('id', 'name', 'album_id', 'folder'),
+            'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
+                'Upload.album_id' => $image['Upload']['album_id'], 'Upload.folder' => $image['Upload']['folder'])
+        ));
+        $this->set('neighbors', $neighbors);
     }
 
     /**

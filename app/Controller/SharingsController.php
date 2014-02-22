@@ -68,8 +68,8 @@ class SharingsController extends AppController {
                     'Sharing.manager' => $this->request->data['Sharing']['manager']
             ));
             $exists = $this->Sharing->find('first', $options);
-           
-          
+
+
             if (!empty($exists)) {
                 $this->Session->setFlash(
                         __('Album already shared with choosen doctor!'), 'alert', array(
@@ -109,12 +109,23 @@ class SharingsController extends AppController {
 
 
         $this->loadModel('User');
-        $options = array(
-            'User.userType' != 1
-        );
+        $opt = array(
+            'conditions' => array(
+                'User.userType' => true,
+                'User.id !=' => $this->Auth->user('id')
+        ));
 
-        $manager = $this->User->find('list', $options);
+        $manager = $this->User->find('list', $opt);
         $this->set('manager', $manager);
+
+        $this->loadModel('Upload');
+        $options = array(
+            'conditions' => array(
+                'Upload.album_id' => $id
+            )
+        );
+        $total = $this->Upload->find('count', $options);
+        $this->set('total', $total);
     }
 
     /**
@@ -182,6 +193,20 @@ class SharingsController extends AppController {
                 )
         );
         $this->redirect(array('action' => 'index'));
+    }
+
+    public function archive($id = null) {
+        $this->Sharing->id = $id;
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException();
+        }
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->Sharing->updateAll(array('active' => 0));
+        } else {
+            $this->request->data = $this->Sharing->read(null, $id);
+        }
+        $this->redirect(array('controller' => 'albums', 'action' => 'index'));
     }
 
 }

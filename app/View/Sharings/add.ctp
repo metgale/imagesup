@@ -6,7 +6,7 @@
             <?php
             echo $this->BootstrapForm->input('album_id', array(
                 'value' => $album['Album']['id'],
-                'type' => 'hidden'                
+                'type' => 'hidden'
             ));
             echo $this->BootstrapForm->input('manager', array(
                 'label' => 'Share with doctor',
@@ -18,5 +18,5 @@
         </fieldset>
         <?php echo $this->BootstrapForm->end(); ?>
     </div>
-    
+    <legend>Number of images in album: <?php echo $total; ?></legend>
 </div>

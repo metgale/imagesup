@@ -1,5 +1,6 @@
 <div class="row-fluid">
-    <div class="span12">
+    <div class="span7">
+
         <h2><?php echo __('Your %s', __('Albums')); ?></h2>
 
         <table class="table">
@@ -16,9 +17,8 @@
                     <td class="actions">
                         <?php echo $this->Html->link(__('Share |'), array('controller' => 'sharings', 'action' => 'add', $album['Album']['id'])); ?>
                         <?php echo $this->Html->link(__('View |'), array('action' => 'view', $album['Album']['id'])); ?>
-                        <?php echo $this->Html->link(__('Albumview |'), array('action' => 'albumview', $album['Album']['id'])); ?>
                         <?php echo $this->Html->link(__('Edit |'), array('action' => 'edit', $album['Album']['id'])); ?>
-                        <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $album['Album']['id']), null, __('Are you sure you want to delete # %s?', $album['Album']['id'])); ?>
+                        <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $album['Album']['id']), null, __('Are you sure you want to delete album: ' . $album['Album']['title'] . '?', $album['Album']['id'])); ?>
                     </td>
                 <?php endforeach; ?>
 
@@ -28,9 +28,11 @@
 
 
         <?php echo $this->BootstrapPaginator->pagination(); ?>
+        <p><a class="btn btn-primary" style="margin-top:40px; margin-bottom:20px;" href="/albums/add">Add new album</a></p>  
 
     </div>
-    <a class="btn btn-primary" style="margin-top:10px" href="/albums/add">Add new album</a>
+
+
 
 
 </div>
