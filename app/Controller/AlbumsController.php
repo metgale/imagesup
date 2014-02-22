@@ -109,9 +109,6 @@ class AlbumsController extends AppController {
         $arrayfolders = array();
         $arrayimages = array();
         foreach ($album['Upload'] as $image) {
-            if ($image['folder'] == null && $image['type'] == 'image/jpeg') {
-                array_push($arrayimages, $image);
-            }
 
             if ($image['folder'] != null) {
                 $folder = $image['folder'];
@@ -120,50 +117,45 @@ class AlbumsController extends AppController {
         }
         $folders = array_unique($arrayfolders);
         $this->set('folders', $folders);
-        $this->set('images', $arrayimages);
+        $this->set('id', $id);
     }
 
-    public function view($id, $imageId = null) {
+    public function view($id, $folderId = null) {
         if (!$this->Album->exists($id)) {
             throw new NotFoundException(__('Invalid Album'));
+        }
+
+        //GALLERY
+        if (empty($folderId)) {
+            $folderid = null;
         }
         $album = $this->Album->find('first', array(
             'conditions' => array('Album.' . $this->Album->primaryKey => $id),
             'contain' => array('Upload' => array(
-                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png')),
-                    'order' => 'Upload.order ASC'
+                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'), 'Upload.folder' => $folderId)
                 ))
         ));
+        $this->set('album', $album);
 
-        if (empty($imageId) && !empty($album['Upload'][0])) {
-            $imageId = $album['Upload'][0]['id'];
+        //IMAGE VIEW
+        $options = array(
+            'conditions' => array(
+                'Upload.album_id' => $id,
+                'Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
+                'Upload.folder' => $folderId
+            )
+        );
+        $imgid = $this->request->query('imgid');
+        if (!empty($imgid)) {
+            $options = array(
+                'conditions' => array(
+                    'Upload.id' => $imgid,
+                    'Upload.album_id' => $id,
+                    'Upload.folder' => $folderId
+            ));
         }
-        $image = $this->Album->Upload->find('first', array(
-            'conditions' => array('Upload.id' => $imageId)
-        ));
-        $this->set(compact('album', 'image'));
-        $this->set('sharing', $this->Album->Sharing->findById($this->request->query('sharing_id')));
-
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Album->Sharing->save($this->request->data)) {
-                $this->Session->setFlash(
-                        __('The %s has been saved', __('album')), 'alert', array(
-                    'plugin' => 'TwitterBootstrap',
-                    'class' => 'alert-success'
-                        )
-                );
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(
-                        __('The %s could not be saved. Please, try again.', __('album')), 'alert', array(
-                    'plugin' => 'TwitterBootstrap',
-                    'class' => 'alert-error'
-                        )
-                );
-            }
-        } else {
-            $this->request->data = $this->Album->Sharing->read(null, $id);
-        }
+        $image = $this->Album->Upload->find('all', $options);
+        $this->set('image', $image);
     }
 
     /**
@@ -345,11 +337,11 @@ class AlbumsController extends AppController {
         $response->name = $name;
         echo json_encode(array('files' => array($response)));
 
-        if (in_array($file['type'][0], array('image/jpeg', 'image/png'))) {
+        if (in_array($uploadedFile->mime(), array('image/jpeg', 'image/png'))) {
             $this->_createThumb($name, $path);
         }
 
-        if ($file['type'][0] === 'application/zip') {
+        if ($uploadedFile->mime() === 'application/zip') {
             foreach ($this->_extractDicom($name, $path, $albumId) as $image) {
                 $data = array_merge($data, $image);
                 $this->Album->Upload->create();
