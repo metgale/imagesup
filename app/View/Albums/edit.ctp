@@ -34,7 +34,7 @@
 				<span class="btn btn-success fileinput-button">
 					<i class="glyphicon glyphicon-plus"></i>
 					<span>Add files...</span>
-					<input type="file" name="files[]" multiple directory webkitdirectory mozdirectory>
+					<input type="file" name="files[]" multiple directory  mozdirectory>
 				</span>
 				<button type="reset" class="btn btn-small cancel hidden">
 					<i class="glyphicon glyphicon-ban-circle"></i>

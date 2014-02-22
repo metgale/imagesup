@@ -4,22 +4,23 @@
 	<?php foreach ($files as $file) { ?>
 	<tr>
 		<td>
-		<a href="/img/<?=$file['Upload']['album_id'];?>/<?=$file['Upload']['name'];?>">
-			<?php if (in_array($file['Upload']['type'], array('image/jpeg', 'image/png'))) { ?>
-			<img src="/img/<?=$file['Upload']['album_id'];?>/thumb_<?=$file['Upload']['name'];?>">
-			<?php } else { ?>
+		<a href="<?php echo $file['Upload']['path'] . $file['Upload']['name'];?>">
+		<?php if (in_array($file['Upload']['type'], array('image/jpeg', 'image/png'))) { ?>
+			<img src="<?=$file['Upload']['path'];?>thumb_<?=$file['Upload']['name'];?>">
+		<?php } else { ?>
 			<p>Download</p>
-			<?php } ?>
+		<?php } ?>
 		</a>
 		</td>
 		<td>
 			<p>
-				<a href="/img/<?=$file['Upload']['album_id'];?>/<?=$file['Upload']['name'];?>">
+				<a href="<?php echo $file['Upload']['path'] . $file['Upload']['name'];?>">
 					<strong><?php echo h($file['Upload']['name']); ?></strong>
 				</a>
 			</p> 
-			<p class="small">on <?php echo h($file['Upload']['created']); ?>, </p> 
-			<p class="small">size: <?php echo h($file['Upload']['size']); ?></p>
+			<p class="small">uploaded: <?php echo h($file['Upload']['created']); ?></p> 
+			<p class="small">size: <?php echo $this->Number->toReadableSize($file['Upload']['size']); ?></p>
+			<p class="small">folder: "<?php echo h($file['Upload']['folder']); ?>"</p>
 			<p>
 			<button class="btn btn-small cancel">
 				<i class="glyphicon glyphicon-ban-circle"></i>
@@ -27,7 +28,6 @@
 			</button>
 			</p> 
 		</td>
-		
 	</tr>
 	<?php } ?>
 	</tbody>

@@ -84,8 +84,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<script type="text/javascript" src="/js/jquery.imageLens.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/scripts.js"></script>
-		 <script type="text/javascript" src="/js/jquery.collapse.js"></script>
-		 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.collapse.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
  
 		<!-- uploader -->
 		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
@@ -114,5 +114,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<script src="/js/jquery.fileupload-ui.js"></script>
 		<!-- The main application script -->
 		<script src="/js/main.js"></script>
+		
+		<?php if (!$this instanceof DebugView) { echo $this->element('sql_dump'); } ?>
     </body>
 </html>
