@@ -5,6 +5,8 @@ App::uses('File', 'Utility');
 App::uses('Folder', 'Utility');
 App::uses('Sanitize', 'Utility');
 require_once APP . 'Vendor' . DS . 'PHPThumb' . DS . 'ThumbLib.inc.php';
+require_once APP . 'Lib' . DS . 'nanodicom' . DS . 'nanodicom.php';
+require_once APP . 'Lib' . DS . 'nanodicom' . DS . 'ExtractDataFromDiCOM.php';
 
 /**
  * Albums Controller
@@ -95,27 +97,51 @@ class AlbumsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function view($id = null) {
+    public function albumview($id) {
         if (!$this->Album->exists($id)) {
             throw new NotFoundException(__('Invalid Album'));
         }
-        $options = array(
-            'contain' => 'Upload',
-            'conditions' => array('Album.' . $this->Album->primaryKey => $id));
-        $this->set('album', $this->Album->find('first', $options));
+        $album = $this->Album->find('first', array(
+            'conditions' => array('Album.' . $this->Album->primaryKey => $id),
+            'contain' => array('Upload')
+        ));
 
+        $arrayfolders = array();
+        $arrayimages = array();
+        foreach ($album['Upload'] as $image) {
+            if ($image['folder'] == null && $image['type'] == 'image/jpeg') {
+                array_push($arrayimages, $image);
+            }
 
-        $this->paginate = array(
-            'limit' => 1,
-            'order' => 'Upload.created ASC',
-            'conditions' => array(
-                'Upload.album_id' => $id
-            )
-        );
-        $this->set('images', $this->paginate('Upload'));
+            if ($image['folder'] != null) {
+                $folder = $image['folder'];
+                array_push($arrayfolders, $folder);
+            }
+        }
+        $folders = array_unique($arrayfolders);
+        $this->set('folders', $folders);
+        $this->set('images', $arrayimages);
+    }
 
+    public function view($id, $imageId = null) {
+        if (!$this->Album->exists($id)) {
+            throw new NotFoundException(__('Invalid Album'));
+        }
+        $album = $this->Album->find('first', array(
+            'conditions' => array('Album.' . $this->Album->primaryKey => $id),
+            'contain' => array('Upload' => array(
+                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png')),
+                    'order' => 'Upload.order ASC'
+                ))
+        ));
 
-
+        if (empty($imageId) && !empty($album['Upload'][0])) {
+            $imageId = $album['Upload'][0]['id'];
+        }
+        $image = $this->Album->Upload->find('first', array(
+            'conditions' => array('Upload.id' => $imageId)
+        ));
+        $this->set(compact('album', 'image'));
         $this->set('sharing', $this->Album->Sharing->findById($this->request->query('sharing_id')));
 
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -238,6 +264,28 @@ class AlbumsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
+    /**
+     * List album files
+     *
+     * @param type $albumId
+     * @return array
+     */
+    public function files($albumId) {
+        $files = (array) $this->Album->uploadedFiles($albumId);
+        $this->set(compact('files'));
+
+        $this->viewPath = 'Elements';
+        $this->render('files');
+    }
+
+    /**
+     * Jquery Upload handler
+     *
+     * @return boolean
+     * @throws BadRequestException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
+     */
     public function upload() {
         // $this->log($this->request);
         if (env('SERVER_ADDR') === '127.0.0.1') {
@@ -262,9 +310,14 @@ class AlbumsController extends AppController {
             throw new NotFoundException();
         }
 
-        $path = WWW_ROOT . 'img' . DS . $albumId . DS;
+        if (empty($this->request->params['form']['files'])) {
+            throw new InvalidArgumentException('Missing upload file');
+        }
+        $file = $this->request->params['form']['files'];
+
+        $path = WWW_ROOT . 'img' . DS . 'uploads' . DS . $albumId . DS;
         try {
-            $name = $this->_uploadFile($this->request->params['form']['files'], $path);
+            $name = $this->_uploadFile($file, $path);
         } catch (Exception $e) {
             $this->log(array($e->getMessage(), $e->getTraceAsString(), $this->request));
         }
@@ -276,22 +329,47 @@ class AlbumsController extends AppController {
             return false;
         }
 
-        $file = new File($path . $name);
+        $uploadedFile = new File($path . $name);
         $data = array(
             'album_id' => $albumId,
             'user_id' => $this->Auth->user('id'),
             'name' => $name,
-            'size' => $file->size(),
-            'type' => $file->mime(),
+            'path' => '/img/uploads/' . $albumId . '/',
+            'size' => $uploadedFile->size(),
+            'type' => $uploadedFile->mime(),
         );
         if (!$this->Album->Upload->save($data)) {
-            $this->log('Cannot save Upload. ' . json_encode($this->Album->Upload->validationErrors));
+            $dump = array($data, $this->Album->Upload->validationErrors);
+            $this->log('Save failed' . json_encode($dump));
         }
-
         $response->name = $name;
         echo json_encode(array('files' => array($response)));
+
+        if (in_array($file['type'][0], array('image/jpeg', 'image/png'))) {
+            $this->_createThumb($name, $path);
+        }
+
+        if ($file['type'][0] === 'application/zip') {
+            foreach ($this->_extractDicom($name, $path, $albumId) as $image) {
+                $data = array_merge($data, $image);
+                $this->Album->Upload->create();
+                if (!$this->Album->Upload->save($data)) {
+                    $dump = array($data, $this->Album->Upload->validationErrors);
+                    $this->log('Save failed' . json_encode($dump));
+                }
+            }
+        }
     }
 
+    /**
+     * Handle HTTP POST upload
+     *
+     * @param type $file
+     * @param type $path
+     * @return string
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
     protected function _uploadFile($file, $path) {
         if (empty($file['name'][0]) || $file['error'][0] !== 0) {
             throw new InvalidArgumentException('Missing file name');
@@ -312,30 +390,7 @@ class AlbumsController extends AppController {
         }
         chmod($path . $name, 0777);
 
-        if ($file['type'][0] === 'archive/zip') {
-            // unzip
-            // foreach files
-        }
-
-        if (in_array($file['type'][0], array('image/jpeg', 'image/png'))) {
-            $this->resize($name, $path);
-        }
-
         return $name;
-    }
-
-    /**
-     * List album files
-     *
-     * @param type $albumId
-     * @return array
-     */
-    public function files($albumId) {
-        $files = (array) $this->Album->uploadedFiles($albumId);
-        $this->set(compact('files'));
-
-        $this->viewPath = 'Elements';
-        $this->render('files');
     }
 
     /**
@@ -344,11 +399,11 @@ class AlbumsController extends AppController {
      * @param type $path
      * @return boolean
      */
-    protected function resize($name, $path) {
+    protected function _createThumb($name, $path) {
         $image = $path . 'thumb_' . $name;
         try {
             $thumb = PhpThumbFactory::create($path . $name);
-            $thumb->adaptiveResize(175, 175);
+            $thumb->adaptiveResize(165, 165);
             $thumb->show();
             $thumb->save($image);
             chmod($image, 0777);
@@ -358,6 +413,40 @@ class AlbumsController extends AppController {
         }
 
         return true;
+    }
+
+    protected function _extractDicom($name, $path, $albumId) {
+        $zip = new ZipArchive;
+        $zip->open($path . $name);
+        $extractFolder = $path . rtrim($name, '.zip');
+        $zip->extractTo($extractFolder);
+        $zip->close();
+
+        $extractor = new DicomExtractor();
+        $dicoms = $extractor->parse($extractFolder, rtrim($path, DS));
+
+        $folder = new Folder($extractFolder);
+        $folder->delete();
+        rmdir($extractFolder);
+
+        $result = array();
+        foreach ($dicoms as $directory) {
+            foreach ($directory['images'] as $image) {
+                $dicomPath = $path . $directory['directory'] . DS;
+                $this->_createThumb($image['fileName'], $dicomPath);
+                $uploadedFile = new File($dicomPath . $image['fileName']);
+                $result[] = array(
+                    'folder' => $directory['directory'],
+                    'name' => $image['fileName'],
+                    'path' => '/img/uploads/' . $albumId . '/' . $directory['directory'] . '/',
+                    'description' => @file_get_contents($dicomPath . $image['txtFileName']),
+                    'order' => $image['order'],
+                    'size' => $uploadedFile->size(),
+                    'type' => $uploadedFile->mime(),
+                );
+            }
+        }
+        return $result;
     }
 
 }
