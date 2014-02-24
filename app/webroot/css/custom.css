@@ -11,64 +11,57 @@ and open the template in the editor.
 #container{
     padding:  0 15px 15px 15px;
 }
-
-
 .green{
     color:#47cb2a;
 }
-
 .red{
     color:red;
 }
-.admin table{
-    margin-top:20px;
-}
-.gallery{
-   height: 530px;
-    overflow: auto;
-}
 
+.gallery{
+    min-height: 400px;
+    max-height: 800px;
+    overflow: scroll;
+    padding:5px;
+}
 .gallery img{
     padding:  5px 0 5px 0;
 }
 
-#myimg{
-    max-width: 400px;
-}
-.galleryimg{
-  
-  
-}
-
-.image-controls{
-    margin-top: 10px;
-	padding-bottom: 30px;
-}
-
-
-.imageview{
-    padding-left:30px;
-}
-
-
 .fileupload-progress {
-	margin: 10px 0;
+    margin: 10px 0;
 }
 .fileupload-progress .progress-extended {
-	margin-top: 5px;
+    margin-top: 5px;
 }
 .error {
-	color: red;
+    color: red;
 }
 
-.prevnext{
+#imagedetails{
+    display:none;
+}
+.neigh{
+    width: 65px;
+}
+
+.imgcontrols li{
+    list-style-type: none;
+}
+
+.folders ul li{
+    font-size: 17px;
+    border-bottom:1px solid #EEE;
+    list-style-type: none;
+    line-height: 1.5;
+}
+.imageview #imagedetails #imgname{
     padding-top:50px;
 }
-.prevnext li{
-    list-style-type: none;
-    display:inline;
-    padding:20px;   
+.image-controls li{
+    margin:10px;
 }
-.prevnext li a{
-    font-size:60px;
+.gallery img{
+    width:180px;
+    height:180px;
 }

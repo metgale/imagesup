@@ -11,12 +11,11 @@
             </tr>
             <?php foreach ($sharings as $sharing): ?>
                 <tr>
-                    <td><?php echo h($sharing['Album']['title']); ?>&nbsp;</td>
+                    <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'])); ?></td>
                     <td><?php echo h($sharing['Album']['User']['firstname']); ?>  <?php echo h($sharing['Album']['User']['lastname']); ?>&nbsp;</td>
                     <td><?php echo h($sharing['Sharing']['created']); ?>&nbsp;</td>
 
                     <td class="actions">
-                        <?php echo $this->Html->link(__('View'), array('action' => 'view', $sharing['Album']['id'], '?' => array('sharing_id' => $sharing['Sharing']['id']))); ?>
                        | <?php echo $this->Form->postLink(__('Archive'), array('controller' => 'sharings', 'action' => 'archive', $sharing['Sharing']['id']), null, __('Are you sure you want to archive this album?', $sharing['Sharing']['id'])); ?>
 
                     </td>

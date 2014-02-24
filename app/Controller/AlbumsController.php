@@ -134,15 +134,14 @@ class AlbumsController extends AppController {
         $arrayimages = array();
         foreach ($album['Upload'] as $image) {
 
-            if ($image['folder'] != null) {
-                $folder = $image['folder'];
+            if ($image['folder_title'] != null) {
+                $folder = array($image['folder_title'], $image['folder']);
                 array_push($arrayfolders, $folder);
             }
         }
         $folders = array_unique($arrayfolders);
         $this->set('folders', $folders);
         $this->set('id', $id);
-
         if (empty($folderId)) {
             $folderid = null;
         }
@@ -460,6 +459,7 @@ class AlbumsController extends AppController {
                     'order' => $image['order'],
                     'size' => $uploadedFile->size(),
                     'type' => $uploadedFile->mime(),
+                    'folder_title' => $directory['title']
                 );
             }
         }

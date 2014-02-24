@@ -47,6 +47,5 @@ class AppController extends Controller {
         'Html' => array('className' => 'TwitterBootstrap.BootstrapHtml'),
         'Form' => array('className' => 'TwitterBootstrap.BootstrapForm'),
         'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator'),
-		'Number'
     );
 }

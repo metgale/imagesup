@@ -15,7 +15,11 @@
                 'helpInline' => '<span class="label label-important">' . __('Required') . '</span>&nbsp;')
             );
             ?>
-            <?php echo $this->BootstrapForm->submit(__('Submit')); ?>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="/albums/index" class="btn btn-danger" style="margin-left:10px;">Cancel</a>
+            </div> 
+            
         </fieldset>
     </div>
- </div>
+</div>

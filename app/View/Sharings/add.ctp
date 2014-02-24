@@ -1,5 +1,6 @@
 <div class="row-fluid">
     <div class="span9">
+         <a href="/albums/index">Back to albums</a>
         <?php echo $this->BootstrapForm->create('Sharing', array('class' => 'form-horizontal')); ?>
         <fieldset>
             <legend><?php echo __('You are about to share album: ' . $album['Album']['title']); ?></legend>

@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+    $("#toggleview").click(function() {
+        $("#imagedetails").toggle();
+    });
+
     $("#slider-brightness").slider({value: 50})
             .bind("slide", function(event, ui) {
                 var value = $("#slider-brightness").slider("value");

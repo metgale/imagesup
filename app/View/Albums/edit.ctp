@@ -1,28 +1,11 @@
 <div class="row-fluid">
-    <div class="span9">
-        <?php echo $this->BootstrapForm->create('Album', array('class' => 'form-horizontal')); ?>
-        <fieldset>
-            <legend><?php echo $album['Album']['title']; ?></legend><a href='/albums/view/<?php echo $album['Album']['id']; ?>'>View album</a>
-            <?php
-            echo $this->BootstrapForm->input('user_id', array(
-                'type' => 'hidden',
-                'value' => AuthComponent::user('id'),
-                'required' => 'required',
-                'helpInline' => '<span class="label label-important">' . __('Required') . '</span>&nbsp;')
-            );
-            echo $this->BootstrapForm->input('title', array(
-                'required' => 'required',
-                'helpInline' => '<span class="label label-important">' . __('Required') . '</span>&nbsp;')
-            );
-            echo $this->BootstrapForm->hidden('id');
-            ?>
-            <?php echo $this->BootstrapForm->submit(__('Save')); ?>
-        </fieldset>
-        <?php echo $this->BootstrapForm->end(); ?>
+    <legend>Upload files to "<?php echo $album['Album']['title']; ?>"</legend>
+    <div class="controls">
+        <a class="btn btn-primary" href="/albums/view/<?php echo $album['Album']['id']; ?>">View Album</a>
+        <a class="btn btn-danger" href="/albums/index">Cancel</a>    
     </div>
-</div>
+    <hr>
 
-<div class="row-fluid">
     <form class="span9" id="fileupload" data-album-id="<?php echo $album['Album']['id']; ?>" action="/albums/upload" method="POST" enctype="multipart/form-data">
         <?php echo $this->Form->hidden('Album.id'); ?>
         <div class="fileupload-buttonbar">
