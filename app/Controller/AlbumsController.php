@@ -123,32 +123,28 @@ class AlbumsController extends AppController {
         ));
         $this->set('album', $album);
 
-        $options = array(
-            'conditions' => array(
+        $conditions = array(
                 'Upload.album_id' => $id,
                 'Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
                 'Upload.folder' => $folderId
-            )
         );
         $imgid = $this->request->query('imgid');
         if (!empty($imgid)) {
-            $options = array(
-                'conditions' => array(
-                    'Upload.id' => $imgid,
-                    'Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
-                    'Upload.album_id' => $id,
-                    'Upload.folder' => $folderId
-            ));
+            $conditions['Upload.id'] = $imgid;
         }
-        $image = $this->Album->Upload->find('first', $options);
+        $image = $this->Album->Upload->find('first', array('conditions' => $conditions));
         $this->set('image', $image);
-        $neighbors = $this->Album->Upload->find('neighbors', array(
-            'field' => 'id',
-            'value' => $image['Upload']['id'],
-            'fields' => array('id', 'name', 'album_id', 'folder'),
-            'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
-                'Upload.album_id' => $image['Upload']['album_id'], 'Upload.folder' => $image['Upload']['folder'])
-        ));
+
+		$neighbors = array();
+		if ($image) {
+			$neighbors = $this->Album->Upload->find('neighbors', array(
+				'field' => 'id',
+				'value' => $image['Upload']['id'],
+				'fields' => array('id', 'name', 'album_id', 'folder'),
+				'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
+					'Upload.album_id' => $image['Upload']['album_id'], 'Upload.folder' => $image['Upload']['folder'])
+			));
+		}
         $this->set('neighbors', $neighbors);
     }
 

@@ -6,7 +6,7 @@
 
 <div class="row-fluid">
     <a href="/albums/edit/<?php echo $album['Album']['id']; ?>">Add more photos</a>
-    <h2><?php echo h($album['Album']['title']); ?> / <?php if ($album['Upload'][0]['folder'] == null): ?>
+    <h2><?php echo h($album['Album']['title']); ?> / <?php if (empty($album['Upload'][0]['folder'])): ?>
             <span style='color:#0aaaf1'>Root</span>
         <?php else: ?>
             <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
