@@ -97,29 +97,6 @@ class AlbumsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function albumview($id) {
-        if (!$this->Album->exists($id)) {
-            throw new NotFoundException(__('Invalid Album'));
-        }
-        $album = $this->Album->find('first', array(
-            'conditions' => array('Album.' . $this->Album->primaryKey => $id),
-            'contain' => array('Upload')
-        ));
-
-        $arrayfolders = array();
-        $arrayimages = array();
-        foreach ($album['Upload'] as $image) {
-
-            if ($image['folder'] != null) {
-                $folder = $image['folder'];
-                array_push($arrayfolders, $folder);
-            }
-        }
-        $folders = array_unique($arrayfolders);
-        $this->set('folders', $folders);
-        $this->set('id', $id);
-    }
-
     public function view($id, $folderId = null) {
         if (!$this->Album->exists($id)) {
             throw new NotFoundException(__('Invalid Album'));
@@ -130,16 +107,12 @@ class AlbumsController extends AppController {
             'contain' => array('Upload')
         ));
 
-        $arrayfolders = array();
-        $arrayimages = array();
+        $folders = array();
         foreach ($album['Upload'] as $image) {
-
-            if ($image['folder_title'] != null) {
-                $folder = array($image['folder_title'], $image['folder']);
-                array_push($arrayfolders, $folder);
+            if ($image['folder'] != null) {
+                $folders[$image['folder_title']] = $image['folder'];
             }
         }
-        $folders = array_unique($arrayfolders);
         $this->set('folders', $folders);
         $this->set('id', $id);
         if (empty($folderId)) {
@@ -296,13 +269,8 @@ class AlbumsController extends AppController {
 
     /**
      * Jquery Upload handler
-     *
-     * @return boolean
-     * @throws BadRequestException
-     * @throws NotFoundException
-     * @throws InvalidArgumentException
      */
-    public function upload() {
+    public function upload($albumId) {
         // $this->log($this->request);
         if (env('SERVER_ADDR') === '127.0.0.1') {
             sleep(2);
@@ -312,10 +280,10 @@ class AlbumsController extends AppController {
             throw new BadRequestException();
         }
 
-        if (empty($this->request->data['Album']['id'])) {
+        if (empty($albumId)) {
             throw new BadRequestException('Missing album ID');
         }
-        $albumId = (int) $this->request->data['Album']['id'];
+
         $album = $this->Album->find('first', array(
             'conditions' => array(
                 'id' => $albumId,
@@ -420,7 +388,6 @@ class AlbumsController extends AppController {
         try {
             $thumb = PhpThumbFactory::create($path . $name);
             $thumb->adaptiveResize(165, 165);
-            $thumb->show();
             $thumb->save($image);
             chmod($image, 0777);
         } catch (Exception $e) {

@@ -42,7 +42,8 @@ and open the template in the editor.
     display:none;
 }
 .neigh{
-    width: 65px;
+    width: 50px;
+    margin-top:5px;
 }
 
 .imgcontrols li{
@@ -64,4 +65,15 @@ and open the template in the editor.
 .gallery img{
     width:180px;
     height:180px;
+}
+.imageview{
+    overflow: scroll;
+    max-height: 1000px;
+
+}
+#myimg{
+    max-height: none;
+    max-width: none;
+}
+#clear{
 }

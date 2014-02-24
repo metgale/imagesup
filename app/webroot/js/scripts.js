@@ -4,11 +4,32 @@ $(document).ready(function() {
         $("#imagedetails").toggle();
     });
 
+    $("#clear").click(function() {
+        qq = 50;
+        $("#slider-brightness").slider({value: 50});
+        $("#slider-contrast").slider({value: 50});
+        $("#slider-invert").slider({value: 50});
+        $("#slider-saturation").slider({value: 50});
+        $("#myimg").css("-webkit-filter", "none");
+    });
+
     $("#slider-brightness").slider({value: 50})
             .bind("slide", function(event, ui) {
                 var value = $("#slider-brightness").slider("value");
                 var qq = value * 2;
                 $("#myimg").css("-webkit-filter", "brightness(" + qq + "%)");
+            });
+    $("#slider-contrast").slider({value: 50})
+            .bind("slide", function(event, ui) {
+                var value = $("#slider-contrast").slider("value");
+                var qq = value * 2;
+                $("#myimg").css("-webkit-filter", "contrast(" + qq + "%)");
+            });
+    $("#slider-invert").slider({value: 50})
+            .bind("slide", function(event, ui) {
+                var value = $("#slider-invert").slider("value");
+                var qq = value * 2;
+                $("#myimg").css("-webkit-filter", "invert(" + qq + "%)");
             });
 
     $("#slider-saturation").slider({value: 50, max: 100})
@@ -18,31 +39,9 @@ $(document).ready(function() {
                 $("#myimg").css("-webkit-filter", "saturate(" + qq + "%)");
             });
 
-    $("#slider3").slider({value: 50})
-            .bind("slide", function(event, ui) {
-                var value = $("#slider3").slider("value");
-                var qq = value * 2;
-                $("#myimg").css("-webkit-filter", "grayscale(" + qq + "%)");
-            });
 
-    $("#slider4").slider({value: 50})
-            .bind("slide", function(event, ui) {
-                var value = $("#slider4").slider("value");
-                var qq = value * 2;
-                $("#myimg").css("-webkit-filter", "sepia(" + qq + "%)");
-            });
 
-    $("#slider5").slider({value: 50})
-            .bind("slide", function(event, ui) {
-                var value = $("#slider5").slider("value");
-                var qq = value * 2;
-                $("#myimg").css("-webkit-filter", "invert(" + qq + "%)");
-            });
-    $("#slider6").slider({value: 50})
-            .bind("slide", function(event, ui) {
-                var value = $("#slider6").slider("value");
-                var qq = value * 2;
-                $("#myimg").css("-webkit-filter", "contrast(" + qq + "%)");
-            });
-    $("#myimg").imageLens({lensSize: 200});
+
+
+    //$("#myimg").imageLens({lensSize: 200});
 });

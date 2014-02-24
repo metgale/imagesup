@@ -113,7 +113,6 @@
                             data.autoUpload !== false) {
                         data.submit();
                     }
-					console.log('kraa2');
 					$("#upload_list").load("/albums/files/" +  $('#fileupload').attr("data-album-id"));
                 }).fail(function () {
                     if (data.files.error) {
