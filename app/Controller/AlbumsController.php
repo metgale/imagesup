@@ -73,10 +73,6 @@ class AlbumsController extends AppController {
         }
     }
 
-    public function imageview() {
-        
-    }
-
     public function archive() {
         $this->paginate = array(
             'Sharing' => array(
@@ -106,11 +102,12 @@ class AlbumsController extends AppController {
             'conditions' => array('Album.' . $this->Album->primaryKey => $id),
             'contain' => array('Upload')
         ));
-
+        
+        
         $folders = array();
         foreach ($album['Upload'] as $image) {
             if ($image['folder'] != null) {
-                $folders[$image['folder_title']] = $image['folder'];
+                $folders[$image['folder']] = $image['folder_title'];
             }
         }
         $this->set('folders', $folders);
@@ -405,10 +402,16 @@ class AlbumsController extends AppController {
         $zip->extractTo($extractFolder);
         $zip->close();
 
-        $extractor = new DicomExtractor();
-        $dicoms = $extractor->parse($extractFolder, rtrim($path, DS));
-
         $folder = new Folder($extractFolder);
+
+        // checking for nested folder
+        $tree = $folder->tree(null, true, 'dir');
+        $deepestFolder = end($tree);
+        $convertDir = dirname($deepestFolder);
+
+        $extractor = new DicomExtractor();
+        $dicoms = $extractor->parse($convertDir, rtrim($path, DS));
+
         $folder->delete();
         rmdir($extractFolder);
 

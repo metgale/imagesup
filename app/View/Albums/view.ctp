@@ -2,9 +2,12 @@
     <li><a href="/albums/index">All albums</a> /</li>
     <li><strong><?php echo $album['Album']['title'] ?> / </strong></li>
 </ul>
+
+
 <div class="row-fluid">
+    <a href="/albums/edit/<?php echo $album['Album']['id']; ?>">Add more photos</a>
     <h2><?php echo h($album['Album']['title']); ?> / <?php if ($album['Upload'][0]['folder'] == null): ?>
-        <span style='color:#0aaaf1'>Root</span>
+            <span style='color:#0aaaf1'>Root</span>
         <?php else: ?>
             <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
         <?php endif; ?>
@@ -20,7 +23,7 @@
                         <li><a   href="/albums/view/<?php echo $id; ?>">Root</a></li>
                     <?php endif; ?>
                     <?php foreach ($folders as $title => $folder): ?>
-                        <li><?php echo $this->Html->link($title, array('action' => 'view', $id, $folder)); ?></li>
+                        <li><?php echo $this->Html->link($folder, array('action' => 'view', $id, $title)); ?></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

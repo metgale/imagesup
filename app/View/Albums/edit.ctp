@@ -24,11 +24,11 @@
 
 		<br><br>
 		<div class="wait-message hide">
-			<h3>Please wait for upload to complete</h3>
+			<h3>Please wait for upload to complete, you will be redirected</h3>
 		</div>
 
 		<div id="progress" class="progress">
-			<div class="progress-bar progress-bar-success"></div>
+			<div class="bar bar-success"></div>
 		</div>
 
 		<div id="files">
