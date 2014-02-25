@@ -41,7 +41,14 @@ $(document).ready(function() {
 
 
 
+    $('#enable').click(function() {
+        if (this.checked) {
+            $("#myimg").imageLens({lensSize: 200});
+        }
+      
+    });
 
 
-    //$("#myimg").imageLens({lensSize: 200});
+
+
 });

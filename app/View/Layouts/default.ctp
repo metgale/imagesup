@@ -29,12 +29,12 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <?php
         echo $this->Html->meta('icon');
         echo $this->Html->css(array(
-			'bootstrap.min',
-			'bootstrap-responsive.min',
-			'jquery.fileupload',
-			'jquery-ui-1.10.4.custom.min',
-			'custom',
-		));
+            'bootstrap.min',
+            'bootstrap-responsive.min',
+            'jquery.fileupload',
+            'jquery-ui-1.10.4.custom.min',
+            'custom',
+        ));
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
@@ -80,19 +80,21 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
             <?php echo $this->fetch('content'); ?>
         </div>
 
-		<script src="/js/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-		<script type="text/javascript" src="/js/scripts.js"></script>
-		<script type="text/javascript" src="/js/jquery.collapse.js"></script>
-		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
- 
-		<!-- uploader -->
-		<script src="/js/jquery.iframe-transport.js"></script>
-		<script src="/js/jquery.fileupload.js"></script>
-		<script src="/js/jquery.fileupload-process.js"></script>
-		<script src="/js/jquery.fileupload-validate.js"></script>
-		<script src="/js/main.js"></script>
-		
-		<?php if (!$this instanceof DebugView) { echo $this->element('sql_dump'); } ?>
+        <script src="/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script type="text/javascript" src="/js/scripts.js"></script>
+        <script type="text/javascript" src="/js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <script src="/js/jquery.imageLens.js"></script>
+        <!-- uploader -->
+        <script src="/js/jquery.iframe-transport.js"></script>
+        <script src="/js/jquery.fileupload.js"></script>
+        <script src="/js/jquery.fileupload-process.js"></script>
+        <script src="/js/jquery.fileupload-validate.js"></script>
+        <script src="/js/main.js"></script>
+
+        <?php if (!$this instanceof DebugView) {
+            echo $this->element('sql_dump');
+        } ?>
     </body>
 </html>

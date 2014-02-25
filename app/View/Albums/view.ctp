@@ -67,7 +67,7 @@
 
                     <ul class="image-controls">
                         <a id="clear" class="btn btn-primary">Clear</a>
-
+                        <input type="checkbox" id="enable">
                         <li>Brightness: <div id="slider-brightness"></div></li>
                         <li>Contrast: <div id="slider-contrast"></div></li>
                         <li>Invert: <div id="slider-invert"></div></li>
