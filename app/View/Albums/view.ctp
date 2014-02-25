@@ -5,10 +5,8 @@
 
 
 <div class="row-fluid">
-    <h2><?php echo h($album['Album']['title']); ?> / <?php if (empty($album['Upload'][0]['folder'])): ?>
-        <span style='color:#0aaaf1'>Root</span>
-        <?php else: ?>
-            <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
+    <h2><?php echo h($album['Album']['title']); ?> / <?php if (!empty($album['Upload'][0]['folder'])): ?>
+        <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
         <?php endif; ?>
     </h2>
 
@@ -17,9 +15,6 @@
             <div class="folders">
                 <h4>Subfolders</h4>
                 <ul>
-                    <?php if (!empty($album['Upload'][0])): ?>
-                        <li><a   href="/albums/view/<?php echo $id; ?>">Root</a></li>
-                    <?php endif; ?>
                     <?php foreach ($folders as $title => $folder): ?>
                         <li><?php echo $this->Html->link($folder, array('action' => 'view', $id, $title)); ?></li>
                     <?php endforeach; ?>

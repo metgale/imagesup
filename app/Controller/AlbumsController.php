@@ -416,7 +416,7 @@ class AlbumsController extends AppController {
         $dicoms = $extractor->parse($convertDir, rtrim($path, DS));
 
         $folder->delete();
-        rmdir($extractFolder);
+        @rmdir($extractFolder);
 
         $result = array();
         foreach ($dicoms as $directory) {
