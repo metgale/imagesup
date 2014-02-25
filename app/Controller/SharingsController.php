@@ -87,6 +87,7 @@ class SharingsController extends AppController {
                     'Sharing.manager' => $user['User']['id']
             ));
             $exists = $this->Sharing->find('first', $options);
+        
 
 
             if (!empty($exists)) {
@@ -99,6 +100,9 @@ class SharingsController extends AppController {
                 $this->redirect(array('controller' => 'albums', 'action' => 'index'));
             } else {
                 $this->Sharing->create();
+                $this->request->data['Sharing']['album_id'] = $id;
+		$this->request->data['Sharing']['manager'] = $user['User']['id'];
+                
                 if ($this->Sharing->save($this->request->data)) {
                     $this->Session->setFlash(
                             __('Album succesfully shared with the choosen doctor.'), 'alert', array(
