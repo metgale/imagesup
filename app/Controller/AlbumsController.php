@@ -319,16 +319,16 @@ class AlbumsController extends AppController {
             $dump = array($data, $this->Album->Upload->validationErrors);
             $this->log('Save failed' . json_encode($dump));
         }
-        $response->name = $name;
-        echo json_encode(array('files' => array($response)));
 
         if (in_array($uploadedFile->mime(), array('image/jpeg', 'image/png'))) {
             $this->_createThumb($name, $path);
         }
 
+		$folders = array(); // used for redirection after upload completes
         if ($uploadedFile->mime() === 'application/zip') {
             foreach ($this->_extractDicom($name, $path, $albumId) as $image) {
                 $data = array_merge($data, $image);
+				$folders[] = $image['folder'];
                 $this->Album->Upload->create();
                 if (!$this->Album->Upload->save($data)) {
                     $dump = array($data, $this->Album->Upload->validationErrors);
@@ -336,6 +336,13 @@ class AlbumsController extends AppController {
                 }
             }
         }
+		sort($folders);
+
+		$response->name = $name;
+        echo json_encode(array(
+			'files' => array($response),
+			'folder' => empty($folders[0]) ? null : $folders[0]
+		));
     }
 
     /**

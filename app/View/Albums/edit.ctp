@@ -16,7 +16,7 @@
         <span class="btn btn-success btn-large fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Add files...</span>
-            <input id="fileupload" data-album-id="<?php echo $album['Album']['id']; ?>" type="file" name="files[]" multiple>
+            <input id="fileupload" data-album-id="<?php echo $album['Album']['id']; ?>" type="file" name="files[]">
         </span>
         <a href="#" class="cancel hide">
             <i class="glyphicon glyphicon-ban-circle"></i>

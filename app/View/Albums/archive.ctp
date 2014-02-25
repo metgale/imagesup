@@ -2,7 +2,6 @@
     <div class="span7">
         <h2 class="red">Archive</h2>
         <a style="padding-left: 5px;" href="/albums/index">Back to albums</a>
-        <hr>
 
         <table class="table">
             <tr>

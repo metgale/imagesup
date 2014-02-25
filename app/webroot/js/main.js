@@ -1,6 +1,7 @@
 $(function () {
     'use strict';
 	var albumId = $('#fileupload').attr('data-album-id');
+	var folder = null;
 
 	$('#fileupload').fileupload({
 		autoUpload: true,
@@ -14,12 +15,13 @@ $(function () {
 		limitConcurrentUploads: 1,
 		maxChunkSize: 0,
 		stop: function (e, data) {
-			window.location.href = '/albums/view/' + albumId;
+			window.location.href = '/albums/view/' + albumId + '/' + folder;
         },
 		start: function (e, data) {
 			$('.wait-message').show();
 		},
-		acceptFileTypes: /(\.|\/)(jpeg|jpg|png|zip)$/i
+		//acceptFileTypes: /(\.|\/)(jpeg|jpg|png|zip)$/i
+		acceptFileTypes: /(\.|\/)(zip)$/i
     }).on('fileuploadadd', function (e, data) {
         data.context = $('<div/>').appendTo('#files');
         $.each(data.files, function (index, file) {
@@ -43,22 +45,24 @@ $(function () {
             file = data.files[index],
             node = $(data.context.children()[index]);
         if (file.error) {
-            node.append($('<span class="text-danger"/>').text(file.error));
+            node.append($('<span class="label label-warning"/>').text(file.error));
         }
     }).on('fileuploadprogressall', function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
-		console.log(progress);
         $('.bar-success').css('width',progress + '%');
     }).on('fileuploaddone', function (e, data) {
+		if (data.result.folder) {
+			folder = data.result.folder;
+		}
         $.each(data.result.files, function (index, file) {
 			if (file.error) {
-                var error = $('<span class="text-danger"/>').text(file.error);
+                var error = $('<span class="label label-warning"/>').text(file.error);
                 $(data.context.children()[index]).append(error);
             }
         });
     }).on('fileuploadfail', function (e, data) {
         $.each(data.files, function (index, file) {
-            var error = $('<span class="text-danger"/>').text('File upload failed.');
+            var error = $('<span class="label label-warning"/>').text('File upload failed.');
             $(data.context.children()[index]).append(error);
         });
     }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
