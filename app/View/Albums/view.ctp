@@ -6,7 +6,7 @@
 
 <div class="row-fluid">
     <h2><?php echo h($album['Album']['title']); ?> / <?php if (empty($album['Upload'][0]['folder'])): ?>
-            <span style='color:#0aaaf1'>Root</span>
+        <span style='color:#0aaaf1'>Root</span>
         <?php else: ?>
             <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
         <?php endif; ?>
@@ -32,7 +32,7 @@
                 <div class="gallery">
                     <?php foreach ($album['Upload'] as $img): ?>
                         <a id="img-<?= $img['id']; ?>" class="galleryimg" href="<?= $this->Html->url(array('action' => 'view', $album['Album']['id'], $img['folder'], '?' => array('imgid' => $img['id']), '#' => 'img-' . $img['id'])); ?>">
-                            <img width="165" src="<?= $img['path']; ?>thumb_<?= $img['name']; ?>">
+                            <img class="thumb" width="165" src="<?= $img['path']; ?>thumb_<?= $img['name']; ?>">
                         </a>
                     <?php endforeach; ?>
                 </div>
@@ -40,9 +40,9 @@
         </div>
         <div class="span8">
             <div class="span8">
+                <h4 id="imgname"><?php echo $image['Upload']['name']; ?></h4>
                 <div class="imageview">
                     <?php if (!empty($image)) { ?>
-                        <h4 id="imgname"><?php echo $image['Upload']['name']; ?></h4>
                         <br>
                         <p><img id="myimg" src="<?= $image['Upload']['path'] . $image['Upload']['name']; ?>"></p>
                     </div>
@@ -69,9 +69,10 @@
             <div class="span2 white">
                 <div class="imgcontrols">
                     <h4>Controls</h4>
-                    <a id="clear" class="btn btn-primary">Clear</a>
 
                     <ul class="image-controls">
+                        <a id="clear" class="btn btn-primary">Clear</a>
+
                         <li>Brightness: <div id="slider-brightness"></div></li>
                         <li>Contrast: <div id="slider-contrast"></div></li>
                         <li>Invert: <div id="slider-invert"></div></li>

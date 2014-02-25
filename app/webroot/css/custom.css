@@ -25,7 +25,9 @@ and open the template in the editor.
     padding:5px;
 }
 .gallery img{
-    padding:  5px 0 5px 0;
+    padding-top:15px;
+    min-width:145px;
+    min-height: 145px;
 }
 
 .fileupload-progress {
@@ -54,6 +56,7 @@ and open the template in the editor.
     font-size: 17px;
     list-style-type: none;
     line-height: 1.5;
+    padding-top:10px;
 }
 .imageview #imagedetails #imgname{
     padding-top:50px;
@@ -62,10 +65,7 @@ and open the template in the editor.
     margin:10px;
     width:200px;
 }
-.gallery img{
-    width:180px;
-    height:180px;
-}
+
 .imageview{
     overflow: scroll;
     max-height: 1000px;
@@ -76,4 +76,6 @@ and open the template in the editor.
     max-width: none;
 }
 #clear{
+    margin-top:20px;
+    margin-left:77px;
 }
