@@ -225,7 +225,7 @@ class SharingsController extends AppController {
         }
 
         if ($this->request->is('post') || $this->request->is('put')) {
-            $this->Sharing->updateAll(array('active' => 0));
+            $this->Sharing->save(array('active' => 0));
         } else {
             $this->request->data = $this->Sharing->read(null, $id);
         }
