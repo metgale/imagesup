@@ -5,7 +5,7 @@
     $.fn.imageLens = function (options) {
 
         var defaults = {
-            lensSize: 100,
+            lensSize: 1,
             borderSize: 4,
             borderColor: "#888"
         };
