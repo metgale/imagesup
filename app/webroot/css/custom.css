@@ -52,7 +52,6 @@ and open the template in the editor.
 
 .folders ul li{
     font-size: 17px;
-    border-bottom:1px solid #EEE;
     list-style-type: none;
     line-height: 1.5;
 }
@@ -61,6 +60,7 @@ and open the template in the editor.
 }
 .image-controls li{
     margin:10px;
+    width:200px;
 }
 .gallery img{
     width:180px;

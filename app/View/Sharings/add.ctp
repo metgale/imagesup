@@ -12,9 +12,8 @@
                     'value' => $album['Album']['id'],
                     'type' => 'hidden'
                 ));
-                echo $this->BootstrapForm->input('manager', array(
+                echo $this->BootstrapForm->input('manager_email', array(
                     'label' => 'Share with doctor',
-                    'options' => $manager,
                     'required' => 'required')
                 );
                 ?>

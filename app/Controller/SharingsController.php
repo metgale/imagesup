@@ -61,11 +61,30 @@ class SharingsController extends AppController {
      * @return void
      */
     public function add($id) {
+
         if ($this->request->is('post')) {
+
+            $this->loadModel('User');
+            $user = $this->User->find('first', array(
+                'conditions' => array(
+                    'User.email' => $this->request->data['Sharing']['manager_email'],
+                    'User.userType' => 1
+                )
+            ));
+            if (empty($user)) {
+                $this->Session->setFlash(
+                        __('Invalid e-mail adress / doctor does not exist.'), 'alert', array(
+                    'plugin' => 'TwitterBootstrap',
+                    'class' => 'alert-error'
+                        )
+                );
+                $this->redirect(array('controller' => 'sharings', 'action' => 'add', $id));
+            }
+
             $options = array(
                 'conditions' => array(
                     'Sharing.album_id' => $this->request->data['Sharing']['album_id'],
-                    'Sharing.manager' => $this->request->data['Sharing']['manager']
+                    'Sharing.manager' => $user['User']['id']
             ));
             $exists = $this->Sharing->find('first', $options);
 
