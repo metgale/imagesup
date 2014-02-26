@@ -45,7 +45,9 @@ $(document).ready(function() {
         if (this.checked) {
             $("#myimg").imageLens({lensSize: 200});
         }
-      
+        if (this.unchecked) {
+            $("#myimg").unbind("mousemove");
+        }
     });
 
 
