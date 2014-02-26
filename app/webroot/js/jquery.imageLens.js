@@ -31,15 +31,19 @@
             var widthRatio = 0;
             var heightRatio = 0;
 
-            $(imageTag).load(function () {
-                widthRatio = $(this).width() / obj.width();
-                heightRatio = $(this).height() / obj.height();
+           var ddd = $(imageTag).load(function () {
+                widthRatio = 1200 / obj.width(); // $(this).width() / obj.width();
+                heightRatio = 1200 / obj.height(); //$(this).height() / obj.height();
+				//console.log("width: " + widthRatio + "  heightRatio:" + heightRatio);
+				//console.log("widthRatio: " + widthRatio + "  heightRatio:" + heightRatio);
             }).appendTo($(this).parent());
 
             target.css({ backgroundImage: "url('" + imageSrc + "')" });
 
             target.mousemove(setPosition);
             $(this).mousemove(setPosition);
+			
+			target.css('background-size', '1200px 1200px');
 
             function setPosition(e) {
 
@@ -54,11 +58,13 @@
 
                     leftPos = String(((e.pageX - offset.left) * widthRatio - target.width() / 2) * (-1));
                     topPos = String(((e.pageY - offset.top) * heightRatio - target.height() / 2) * (-1));
+
                     target.css({ backgroundPosition: leftPos + 'px ' + topPos + 'px' });
 
                     leftPos = String(e.pageX - target.width() / 2);
                     topPos = String(e.pageY - target.height() / 2);
                     target.css({ left: leftPos + 'px', top: topPos + 'px' });
+
                 }
             }
         });
