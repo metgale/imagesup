@@ -1,22 +1,30 @@
 <ul class=breadcrumb pull-left">
-    <li><a href="/albums/index">All albums</a> /</li>
+    <li><a href="/albums/index">All Image Studies</a> /</li>
     <li><strong><?php echo $album['Album']['title'] ?> / </strong></li>
 </ul>
+
+<?php
+if (AuthComponent::user('userType') == 1) {
+    echo '<h4>Patient: ' . $album['User']['lastname'] . ' ' . $album['User']['firstname'] . ', email: ' . $album['User']['email'] . '</h4>';
+} else {
+    echo $this->Html->link(__('Share image study'), array('controller' => 'sharings', 'action' => 'add', $album['Album']['id']), array('class' => 'btn btn-primary'));
+}
+?>
 
 
 <div class="row-fluid">
     <h2><?php echo h($album['Album']['title']); ?> / <?php if (!empty($album['Upload'][0]['folder'])): ?>
-        <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
+            <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
         <?php endif; ?>
     </h2>
 
     <div class="span3">
         <div class="span6">
-            <div class="folders">
+            <div class="folders text-left">
                 <h4>Subfolders</h4>
                 <ul>
                     <?php foreach ($folders as $title => $folder): ?>
-                        <li><?php echo $this->Html->link($folder, array('action' => 'view', $id, $title)); ?></li>
+                        <li><?php echo $this->Html->link($folder, array('action' => 'view', $id, $title),array('class' => 'subfolders')); ?></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -64,14 +72,13 @@
             <div class="span2 white">
                 <div class="imgcontrols">
                     <h4>Controls</h4>
-                    <li>Magnify glass <input type="checkbox" id="enable"></li>
-
+                    <li class="enable" name="enable" value="Magnify Glass"><input type="checkbox" id="enable">Magnify glass</li>
                     <ul class="image-controls">
-                        <a id="clear" class="btn btn-primary">Clear</a>
                         <li>Brightness: <div id="slider-brightness"></div></li>
                         <li>Contrast: <div id="slider-contrast"></div></li>
                         <li>Invert: <div id="slider-invert"></div></li>
-                        <li>Saturation: <div id="slider-saturation"></div></li><br>
+                        <!-- <li>Saturation: --> <div style="display: none;" id="slider-saturation"></div>  <!-- </li> -->   
+                        <a id="clear" class="btn btn-primary">Clear</a>
                     </ul>
                 </div>
 

@@ -8,6 +8,9 @@ and open the template in the editor.
     Author     : korisnik
 */
 
+body{
+    width:1700px;
+}
 #container{
     padding:  0 15px 15px 15px;
 }
@@ -19,9 +22,9 @@ and open the template in the editor.
 }
 
 .gallery{
-    min-height: 400px;
+ 
     max-height: 800px;
-    overflow: scroll;
+    overflow-y: scroll;
     padding:5px;
 }
 .gallery img{
@@ -52,11 +55,15 @@ and open the template in the editor.
     list-style-type: none;
 }
 
+
+.folders ul{
+    margin: 0 0 5px 15px;
+}
 .folders ul li{
     font-size: 17px;
     list-style-type: none;
     line-height: 1.5;
-    padding-top:10px;
+    
 }
 .imageview #imagedetails #imgname{
     padding-top:50px;
@@ -78,4 +85,12 @@ and open the template in the editor.
 #clear{
     margin-top:20px;
     margin-left:77px;
+}
+.enable{
+    padding-left:20px;
+    margin:13px;
+}
+#enable{
+    vertical-align: baseline;
+    margin-right:3px;
 }

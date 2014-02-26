@@ -117,7 +117,7 @@ class AlbumsController extends AppController {
         }
         $album = $this->Album->find('first', array(
             'conditions' => array('Album.' . $this->Album->primaryKey => $id),
-            'contain' => array('Upload' => array(
+            'contain' => array('User', 'Upload' => array(
                     'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'), 'Upload.folder' => $folderId)
                 ))
         ));

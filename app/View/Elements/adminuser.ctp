@@ -1,6 +1,6 @@
 <div class="row-fluid admin">
     <div class="span7">
-        <h2 class="green">Active albums shared with you</h2>
+        <h2 class="green">Active image studies shared with you</h2>
         <a href="/albums/archive">Click here to see archive</a>
         <table class="table">
             <tr>
@@ -11,7 +11,7 @@
             </tr>
             <?php foreach ($sharings as $sharing): ?>
                 <tr>
-                    <td><?php echo $this->Html->link($sharing['Album']['title'], array('action' => 'view', $sharing['Album']['id'])); ?></td>
+                    <td><?php echo $this->Html->link($sharing['Album']['title'], array('action' => 'view', $sharing['Album']['id'], 1)); ?></td>
                     <td><?php echo h($sharing['Album']['User']['firstname']); ?>  <?php echo h($sharing['Album']['User']['lastname']); ?>&nbsp;</td>
                     <td><?php echo h($sharing['Sharing']['created']); ?>&nbsp;</td>
 

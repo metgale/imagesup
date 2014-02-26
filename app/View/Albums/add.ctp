@@ -1,13 +1,13 @@
 <div class="row-fluid">
     <ul class=breadcrumb pull-left">
-        <li><a href="/albums/index">All albums</a> /</li>
-        <li>Add Album /</li>
+        <li><a href="/albums/index">All image studies</a> /</li>
+        <li>Add Image Study /</li>
     </ul>
     <div class="row-fluid">
         <div class="span9">
             <?php echo $this->BootstrapForm->create('Album', array('class' => 'form-horizontal')); ?>
             <fieldset>
-                <legend><?php echo __('Add %s', __('Album')); ?></legend>
+               <legend><?php echo __('Add %s', __('Image Study')); ?></legend>
                 <?php
                 echo $this->BootstrapForm->input('user_id', array(
                     'type' => 'hidden',

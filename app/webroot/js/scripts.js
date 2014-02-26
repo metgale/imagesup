@@ -4,6 +4,8 @@ $(document).ready(function() {
         $("#imagedetails").toggle();
     });
 
+    $(".share").focus();
+    $(".subfolders").css('word-wrap', 'break-word');
     $("#clear").click(function() {
         qq = 50;
         $("#slider-brightness").slider({value: 50});
