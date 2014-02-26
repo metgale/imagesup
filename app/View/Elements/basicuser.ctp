@@ -1,7 +1,7 @@
 <div class="row-fluid">
     <div class="span7">
 
-        <h2><?php echo __('Your %s', __('Albums')); ?></h2>
+        <h2><?php echo __('Your %s', __('Image Studies')); ?></h2>
 
         <table class="table">
             <tr>
@@ -27,7 +27,7 @@
 
 
         <?php echo $this->BootstrapPaginator->pagination(); ?>
-        <p><a class="btn btn-primary" style="margin-top:40px; margin-bottom:20px;" href="/albums/add">Add new album</a></p>  
+        <p><a class="btn btn-primary" style="margin-top:40px; margin-bottom:20px;" href="/albums/add">Add new image study</a></p>  
 
     </div>
 

@@ -31,9 +31,12 @@
             var widthRatio = 0;
             var heightRatio = 0;
 
+			var o_width = obj.width() * 2;
+			var o_height = obj.height() * 2;
+			
            var ddd = $(imageTag).load(function () {
-                widthRatio = 1200 / obj.width(); // $(this).width() / obj.width();
-                heightRatio = 1200 / obj.height(); //$(this).height() / obj.height();
+                widthRatio = 2; // 1200 / obj.width(); // $(this).width() / obj.width();
+                heightRatio = 2; //1200 / obj.height(); //$(this).height() / obj.height();
 				//console.log("width: " + widthRatio + "  heightRatio:" + heightRatio);
 				//console.log("widthRatio: " + widthRatio + "  heightRatio:" + heightRatio);
             }).appendTo($(this).parent());
@@ -43,7 +46,7 @@
             target.mousemove(setPosition);
             $(this).mousemove(setPosition);
 			
-			target.css('background-size', '1200px 1200px');
+			target.css('background-size', o_width + 'px ' +  o_height + 'px');
 
             function setPosition(e) {
 

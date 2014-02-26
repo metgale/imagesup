@@ -1,5 +1,5 @@
 <ul class=breadcrumb pull-left">
-    <li><a href="/albums/index">All albums</a> /</li>
+    <li><a href="/albums/index">All image studies</a> /</li>
     <li><strong>Share album / </strong></li>
 </ul>
     <div class="row-fluid">

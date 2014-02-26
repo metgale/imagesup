@@ -23,8 +23,11 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     <head>
         <?php echo $this->Html->charset(); ?>
         <title>
-            <?php echo $cakeDescription ?>:
-            <?php echo $title_for_layout; ?>
+            <?php 
+				   // echo $cakeDescription 
+                  //echo $title_for_layout; 
+			?>
+			Healthy Share
         </title>
         <?php
         echo $this->Html->meta('icon');

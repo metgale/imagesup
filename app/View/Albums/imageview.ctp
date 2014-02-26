@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="span2">
-        <h2>Album</h2>
+        <h2>Image Study</h2>
     </div>
     <div class="span9">
 

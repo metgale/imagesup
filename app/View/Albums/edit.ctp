@@ -1,6 +1,6 @@
 <div class="row-fluid">
     <ul class=breadcrumb pull-left">
-        <li><a href="/albums/index">All albums</a> /</li>
+        <li><a href="/albums/index">All image studies</a> /</li>
         <li><a href="/albums/view/<?php echo $album['Album']['id']; ?>"><strong><?php echo h($album['Album']['title']); ?></strong></a></li>
     </ul>
 

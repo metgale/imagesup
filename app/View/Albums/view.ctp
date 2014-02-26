@@ -1,5 +1,5 @@
 <ul class=breadcrumb pull-left">
-    <li><a href="/albums/index">All albums</a> /</li>
+    <li><a href="/albums/index">All Image Studies</a> /</li>
     <li><strong><?php echo $album['Album']['title'] ?> / </strong></li>
 </ul>
 
@@ -71,7 +71,7 @@
                         <li>Brightness: <div id="slider-brightness"></div></li>
                         <li>Contrast: <div id="slider-contrast"></div></li>
                         <li>Invert: <div id="slider-invert"></div></li>
-                        <li>Saturation: <div id="slider-saturation"></div></li>
+                        <!-- <li>Saturation: --> <div style="display: none;" id="slider-saturation"></div>  <!-- </li> -->
                     </ul>
                 </div>
             </div>

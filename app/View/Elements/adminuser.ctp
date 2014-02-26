@@ -1,6 +1,6 @@
 <div class="row-fluid admin">
     <div class="span7">
-        <h2 class="green">Active albums shared with you</h2>
+        <h2 class="green">Active image studies shared with you</h2>
         <a href="/albums/archive">Click here to see archive</a>
         <table class="table">
             <tr>
