@@ -22,7 +22,6 @@
             <i class="glyphicon glyphicon-ban-circle"></i>
             <span>Cancel upload</span>
         </a>
-
         <br><br>
         <div class="wait-message hide">
 

@@ -64,16 +64,18 @@
             <div class="span2 white">
                 <div class="imgcontrols">
                     <h4>Controls</h4>
+                    <li>Magnify glass <input type="checkbox" id="enable"></li>
 
                     <ul class="image-controls">
                         <a id="clear" class="btn btn-primary">Clear</a>
-                        <input type="checkbox" id="enable">
                         <li>Brightness: <div id="slider-brightness"></div></li>
                         <li>Contrast: <div id="slider-contrast"></div></li>
                         <li>Invert: <div id="slider-invert"></div></li>
-                        <li>Saturation: <div id="slider-saturation"></div></li>
+                        <li>Saturation: <div id="slider-saturation"></div></li><br>
                     </ul>
                 </div>
+
+
             </div>
         </div>
     <?php endif; ?>

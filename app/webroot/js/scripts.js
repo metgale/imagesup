@@ -39,13 +39,11 @@ $(document).ready(function() {
                 $("#myimg").css("-webkit-filter", "saturate(" + qq + "%)");
             });
 
-
-
     $('#enable').click(function() {
         if (this.checked) {
             $("#myimg").imageLens({lensSize: 200});
         }
-        if (this.unchecked) {
+        if (!this.checked) {
             $("#myimg").unbind("mousemove");
         }
     });
