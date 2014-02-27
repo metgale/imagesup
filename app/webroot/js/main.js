@@ -6,7 +6,7 @@ $(function () {
 	$('#fileupload').fileupload({
 		autoUpload: true,
         url: '/albums/upload/' + albumId,
-		maxFileSize: 150000000, //50MB
+		maxFileSize: 150000001, //50MB
         previewCrop: false,
 		dataType: 'json',
 		disableImageResize: true,
