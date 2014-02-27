@@ -91,9 +91,11 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <script src="/js/jquery.fileupload-process.js"></script>
         <script src="/js/jquery.fileupload-validate.js"></script>
         <script src="/js/main.js"></script>
+        <?php         echo $this->element('sql_dump');
 
-        <?php if (!$this instanceof DebugView) {
+        if (!$this instanceof DebugView) {
             echo $this->element('sql_dump');
-        } ?>
+        }
+        ?>
     </body>
 </html>

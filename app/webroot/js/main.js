@@ -15,7 +15,7 @@ $(function () {
 		limitConcurrentUploads: 1,
 		maxChunkSize: 0,
 		stop: function (e, data) {
-			window.location.href = '/albums/view/' + albumId + '/' + folder;
+			window.location.href = '/albums/view/' + albumId + '/' + folder + '/?success=true';
         },
 		start: function (e, data) {
 			$('.wait-message').show();

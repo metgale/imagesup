@@ -1,43 +1,64 @@
-<ul class=breadcrumb pull-left">
-    <li><a href="/albums/index">All Image Studies</a> /</li>
-    <li><strong><?php echo $album['Album']['title'] ?> / </strong></li>
-</ul>
+<?php if ($count != 0): ?>
+    <ul class=breadcrumb pull-left">
+        <li><a href="/albums/index">All Image Studies</a> /</li>
+        <li><strong><?php echo $album['Album']['title'] ?> / </strong></li>
+    </ul>
 
-<?php
-if (AuthComponent::user('userType') == 1) {
-    echo '<h4>Patient: ' . $album['User']['lastname'] . ' ' . $album['User']['firstname'] . ', email: ' . $album['User']['email'] . '</h4>';
-} else {
-    echo $this->Html->link(__('Share image study'), array('controller' => 'sharings', 'action' => 'add', $album['Album']['id']), array('class' => 'btn btn-primary'));
-}
-?>
+    <?php
+    if (AuthComponent::user('userType') == 1) {
+        echo '<h4>Patient: ' . $album['User']['lastname'] . ' ' . $album['User']['firstname'] . ', email: ' . $album['User']['email'] . '</h4>';
+    } else {
+        echo $this->Html->link(__('Share image study'), array('controller' => 'sharings', 'action' => 'add', $album['Album']['id']), array('class' => 'btn btn-primary'));
+    }
+    ?>
 
 
-<div class="row-fluid">
-    <h2><?php echo h($album['Album']['title']); ?> / <?php if (!empty($album['Upload'][0]['folder'])): ?>
-            <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
-        <?php endif; ?>
-    </h2>
+    <div class="row-fluid">
+        <h2><?php echo h($album['Album']['title']); ?> / <?php if (!empty($album['Upload'][0]['folder'])): ?>
+                <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
+            <?php endif; ?>
+        </h2>
 
-    <div class="span3">
-        <div class="span6">
-            <div class="folders text-left">
-                <h4>Subfolders</h4>
-                <ul>
-                    <?php foreach ($folders as $title => $folder): ?>
-                        <li><?php echo $this->Html->link($folder, array('action' => 'view', $id, $title),array('class' => 'subfolders')); ?></li>
-                    <?php endforeach; ?>
-                </ul>
+        <div class="span3">
+            <div class="span6">
+                <div class="folders text-left">
+                    <h4>Subfolders</h4>
+                    <ul>
+                        <?php foreach ($folders as $title => $folder): ?>
+                            <li><?php echo $this->Html->link($folder, array('action' => 'view', $id, $title), array('class' => 'subfolders')); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <?php if (!empty($album['Upload'][0])): ?>
             <div class="span6">
                 <h4 id="imgname">Gallery</h4>
                 <div class="gallery">
-                    <?php foreach ($album['Upload'] as $img): ?>
-                        <a id="img-<?= $img['id']; ?>" class="galleryimg" href="<?= $this->Html->url(array('action' => 'view', $album['Album']['id'], $img['folder'], '?' => array('imgid' => $img['id']), '#' => 'img-' . $img['id'])); ?>">
-                            <img class="thumb" width="165" src="<?= $img['path']; ?>thumb_<?= $img['name']; ?>">
-                        </a>
-                    <?php endforeach; ?>
+                    <div class="thumbimage">
+                        <?php if (($this->request->query('imgid'))): ?>
+                            <?php foreach ($album['Upload'] as $img): ?>              
+                                <?php if ($this->request->query('imgid') == $img['id']): ?>
+                                    <a id="img-<?= $img['id']; ?>" class="galleryimg" href="<?= $this->Html->url(array('action' => 'view', $album['Album']['id'], $img['folder'], '?' => array('imgid' => $img['id']), '#' => 'img-' . $img['id'])); ?>">
+                                        <img class="highlightthumb" width="165" src="<?= $img['path']; ?>thumb_<?= $img['name']; ?>">
+                                    </a>
+                                <?php else: ?>
+                                    <a id="img-<?= $img['id']; ?>" class="galleryimg" href="<?= $this->Html->url(array('action' => 'view', $album['Album']['id'], $img['folder'], '?' => array('imgid' => $img['id']), '#' => 'img-' . $img['id'])); ?>">
+                                        <img class="thumb"  src="<?= $img['path']; ?>thumb_<?= $img['name']; ?>">
+                                    </a>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <a id="img-<?= $album['Upload'][0]['id']; ?>" class="galleryimg" href="<?= $this->Html->url(array('action' => 'view', $album['Album']['id'], $album['Upload'][0]['folder'], '?' => array('imgid' => $album['Upload'][0]['id']), '#' => 'img-' . $album['Upload'][0]['id'])); ?>">
+                                <img class="highlightthumb" src="<?= $album['Upload'][0]['path']; ?>thumb_<?= $album['Upload'][0]['name']; ?>">
+                            </a>
+                            <?php foreach ($album['Upload'] as $img): ?> 
+                                <?php if ($album['Upload'][0]['id'] != $img['id']): ?>
+                                    <a id="img-<?= $img['id']; ?>" class="galleryimg" href="<?= $this->Html->url(array('action' => 'view', $album['Album']['id'], $img['folder'], '?' => array('imgid' => $img['id']), '#' => 'img-' . $img['id'])); ?>">
+                                        <img class="thumb"  src="<?= $img['path']; ?>thumb_<?= $img['name']; ?>">
+                                    </a>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,7 +90,7 @@ if (AuthComponent::user('userType') == 1) {
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="span2 white">
+            <div class="span4 white">
                 <div class="imgcontrols">
                     <h4>Controls</h4>
                     <li class="enable" name="enable" value="Magnify Glass"><input type="checkbox" id="enable">Magnify glass</li>
@@ -81,9 +102,12 @@ if (AuthComponent::user('userType') == 1) {
                         <a id="clear" class="btn btn-primary">Clear</a>
                     </ul>
                 </div>
-
-
             </div>
         </div>
-    <?php endif; ?>
-</div>
+    </div>
+<?php else: ?>
+    <ul class=breadcrumb pull-left">
+        <li><a href="/albums/index">All Image Studies</a> /</li>
+    </ul>
+    <h2>No images in this album.</h2>
+<?php endif; ?>

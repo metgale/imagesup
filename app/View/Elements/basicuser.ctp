@@ -12,7 +12,11 @@
 
             <?php foreach ($albums as $album): ?>
                 <tr>
-                    <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'], 1)); ?></td>
+                    <?php if (isset($album['Upload'][0]['folder'])): ?>
+                        <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'], $album['Upload'][0]['folder'])); ?></td>
+                    <?php else: ?>
+                        <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'])); ?></td>
+                    <?php endif; ?>
                     <td><?php echo h($album['Album']['created']); ?>&nbsp;</td>
                     <td class="actions">
                         <?php echo $this->Html->link(__('Share |'), array('controller' => 'sharings', 'action' => 'add', $album['Album']['id'])); ?>
