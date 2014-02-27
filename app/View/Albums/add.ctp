@@ -7,7 +7,7 @@
         <div class="span9">
             <?php echo $this->BootstrapForm->create('Album', array('class' => 'form-horizontal')); ?>
             <fieldset>
-                <legend><?php echo __('Add %s', __('Image Study')); ?></legend>
+               <legend><?php echo __('Add %s', __('Image Study')); ?></legend>
                 <?php
                 echo $this->BootstrapForm->input('user_id', array(
                     'type' => 'hidden',

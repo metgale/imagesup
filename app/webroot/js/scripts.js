@@ -4,6 +4,8 @@ $(document).ready(function() {
         $("#imagedetails").toggle();
     });
 
+    $(".share").focus();
+    $(".subfolders").css('word-wrap', 'break-word');
     $("#clear").click(function() {
         qq = 50;
         $("#slider-brightness").slider({value: 50});
@@ -39,13 +41,11 @@ $(document).ready(function() {
                 $("#myimg").css("-webkit-filter", "saturate(" + qq + "%)");
             });
 
-
-
     $('#enable').click(function() {
         if (this.checked) {
             $("#myimg").imageLens({lensSize: 200});
         }
-        if (this.unchecked) {
+        if (!this.checked) {
             $("#myimg").unbind("mousemove");
         }
     });

@@ -11,7 +11,7 @@
             </tr>
             <?php foreach ($sharings as $sharing): ?>
                 <tr>
-                    <td><?php echo $this->Html->link($sharing['Album']['title'], array('action' => 'view', $sharing['Album']['id'])); ?></td>
+                    <td><?php echo $this->Html->link($sharing['Album']['title'], array('action' => 'view', $sharing['Album']['id'], 1)); ?></td>
                     <td><?php echo h($sharing['Album']['User']['firstname']); ?>  <?php echo h($sharing['Album']['User']['lastname']); ?>&nbsp;</td>
                     <td><?php echo h($sharing['Sharing']['created']); ?>&nbsp;</td>
 

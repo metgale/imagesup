@@ -12,7 +12,7 @@
 
             <?php foreach ($albums as $album): ?>
                 <tr>
-                    <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'])); ?></td>
+                    <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'], 1)); ?></td>
                     <td><?php echo h($album['Album']['created']); ?>&nbsp;</td>
                     <td class="actions">
                         <?php echo $this->Html->link(__('Share |'), array('controller' => 'sharings', 'action' => 'add', $album['Album']['id'])); ?>
@@ -27,7 +27,7 @@
 
 
         <?php echo $this->BootstrapPaginator->pagination(); ?>
-        <p><a class="btn btn-primary" style="margin-top:40px; margin-bottom:20px;" href="/albums/add">Add new image study</a></p>  
+        <p><a class="btn btn-primary" style="margin-top:40px; margin-bottom:20px;" href="/albums/add">Add new image study</a></p> 
 
     </div>
 
