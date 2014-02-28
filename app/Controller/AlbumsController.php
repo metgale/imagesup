@@ -172,7 +172,6 @@ class AlbumsController extends AppController {
             ));
         }
         $this->set('neighbors', $neighbors);
-        debug($neighbors);
     }
 
     /**
