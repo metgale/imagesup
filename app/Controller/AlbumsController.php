@@ -117,7 +117,6 @@ class AlbumsController extends AppController {
             'contain' => array('Upload')
         ));
 
-
         $folders = array();
         foreach ($album['Upload'] as $image) {
             if ($image['folder'] != null) {
@@ -133,12 +132,10 @@ class AlbumsController extends AppController {
             'conditions' => array('Album.' . $this->Album->primaryKey => $id),
             'contain' => array('User', 'Upload' => array(
                     'order' => 'Upload.order ASC',
-                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'), 'Upload.folder' => $folderId)
+                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png'), 'Upload.folder' => $folderId)
                 ))
         ));
         $this->set('album', $album);
-
-        $this->set('count', count($album['Upload']));
 
         $options = array(
             'order' => 'Upload.order ASC',
@@ -151,7 +148,6 @@ class AlbumsController extends AppController {
         $imgid = $this->request->query('imgid');
         if (!empty($imgid)) {
             $options = array(
-                'order' => 'Upload.order DESC',
                 'conditions' => array(
                     'Upload.id' => $imgid
                 )
@@ -159,19 +155,6 @@ class AlbumsController extends AppController {
         }
         $image = $this->Album->Upload->find('first', $options);
         $this->set('image', $image);
-        debug($image);
-        $neighbors = array();
-        if ($image) {
-            $neighbors = $this->Album->Upload->find('neighbors', array(
-                'field' => 'id',
-                'value' => $image['Upload']['id'],
-                'fields' => array('id', 'name', 'album_id', 'folder', 'order'),
-                'order' => 'Upload.order DESC',
-                'conditions' => array('Upload.type' => array('image/jpeg', 'image/png'),
-                    'Upload.album_id' => $image['Upload']['album_id'], 'Upload.folder' => $image['Upload']['folder'])
-            ));
-        }
-        $this->set('neighbors', $neighbors);
     }
 
     /**
@@ -462,6 +445,7 @@ class AlbumsController extends AppController {
                 );
             }
         }
+        $this->log($result);
         return $result;
     }
 
