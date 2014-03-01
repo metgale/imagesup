@@ -52,7 +52,9 @@ class AlbumsController extends AppController {
             $this->paginate = array(
                 'limit' => 20,
                 'order' => 'Album.created DESC',
-                'contain' => 'Sharing',
+                'contain' => array('Sharing', 'Upload' => array(
+                        'conditions' => array('Upload.type' => array('image/jpeg'))
+                    )),
                 'conditions' => array(
                     'Album.user_id' => $this->Auth->user('id')
                 )
@@ -65,7 +67,8 @@ class AlbumsController extends AppController {
                         'Sharing.manager' => $this->Auth->user('id'),
                         'Sharing.active' => 1
                     ),
-                    'contain' => array('Album' => array('User')),
+                    'contain' => array('Album' => array('User', 'Upload' => array(
+                                'conditions' => array('Upload.type' => array('image/jpeg'))))),
                     'limit' => 10
             ));
             $sharings = $this->paginate('Sharing');
@@ -80,7 +83,8 @@ class AlbumsController extends AppController {
                     'Sharing.manager' => $this->Auth->user('id'),
                     'Sharing.active' => 0
                 ),
-                'contain' => array('Album' => array('User')),
+                'contain' => array('Album' => array('User', 'Upload' => array(
+                            'conditions' => array('Upload.type' => array('image/jpeg'))))),
                 'limit' => 10
         ));
         $inactivesharings = $this->paginate('Sharing');
@@ -94,6 +98,16 @@ class AlbumsController extends AppController {
      * @return void
      */
     public function view($id, $folderId = null) {
+        if (isset($this->request->query['success'])) {
+            if ($this->request->query['success'] == true) {
+                $this->Session->setFlash(
+                        ('Images upload successful. You can now browse image study, or share it with doctor.'), 'alert', array(
+                    'plugin' => 'TwitterBootstrap',
+                    'class' => 'alert-success'
+                        )
+                );
+            }
+        }
         if (!$this->Album->exists($id)) {
             throw new NotFoundException(__('Invalid Album'));
         }
@@ -102,8 +116,7 @@ class AlbumsController extends AppController {
             'conditions' => array('Album.' . $this->Album->primaryKey => $id),
             'contain' => array('Upload')
         ));
-        
-        
+
         $folders = array();
         foreach ($album['Upload'] as $image) {
             if ($image['folder'] != null) {
@@ -118,34 +131,30 @@ class AlbumsController extends AppController {
         $album = $this->Album->find('first', array(
             'conditions' => array('Album.' . $this->Album->primaryKey => $id),
             'contain' => array('User', 'Upload' => array(
-                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'), 'Upload.folder' => $folderId)
+                    'order' => 'Upload.order ASC',
+                    'conditions' => array('Upload.type' => array('image/jpeg', 'image/png'), 'Upload.folder' => $folderId)
                 ))
         ));
         $this->set('album', $album);
 
-        $conditions = array(
+        $options = array(
+            'order' => 'Upload.order ASC',
+            'conditions' => array(
                 'Upload.album_id' => $id,
-                'Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
+                'Upload.type' => array('image/jpeg', 'image/png'),
                 'Upload.folder' => $folderId
+            )
         );
         $imgid = $this->request->query('imgid');
         if (!empty($imgid)) {
-            $conditions['Upload.id'] = $imgid;
+            $options = array(
+                'conditions' => array(
+                    'Upload.id' => $imgid
+                )
+            );
         }
-        $image = $this->Album->Upload->find('first', array('conditions' => $conditions));
+        $image = $this->Album->Upload->find('first', $options);
         $this->set('image', $image);
-
-		$neighbors = array();
-		if ($image) {
-			$neighbors = $this->Album->Upload->find('neighbors', array(
-				'field' => 'id',
-				'value' => $image['Upload']['id'],
-				'fields' => array('id', 'name', 'album_id', 'folder'),
-				'conditions' => array('Upload.type' => array('image/jpeg', 'image/png', 'Upload.'),
-					'Upload.album_id' => $image['Upload']['album_id'], 'Upload.folder' => $image['Upload']['folder'])
-			));
-		}
-        $this->set('neighbors', $neighbors);
     }
 
     /**
@@ -324,11 +333,11 @@ class AlbumsController extends AppController {
             $this->_createThumb($name, $path);
         }
 
-		$folders = array(); // used for redirection after upload completes
+        $folders = array(); // used for redirection after upload completes
         if ($uploadedFile->mime() === 'application/zip') {
             foreach ($this->_extractDicom($name, $path, $albumId) as $image) {
                 $data = array_merge($data, $image);
-				$folders[] = $image['folder'];
+                $folders[] = $image['folder'];
                 $this->Album->Upload->create();
                 if (!$this->Album->Upload->save($data)) {
                     $dump = array($data, $this->Album->Upload->validationErrors);
@@ -336,13 +345,13 @@ class AlbumsController extends AppController {
                 }
             }
         }
-		sort($folders);
+        sort($folders);
 
-		$response->name = $name;
+        $response->name = $name;
         echo json_encode(array(
-			'files' => array($response),
-			'folder' => empty($folders[0]) ? null : $folders[0]
-		));
+            'files' => array($response),
+            'folder' => empty($folders[0]) ? null : $folders[0]
+        ));
     }
 
     /**
@@ -436,6 +445,7 @@ class AlbumsController extends AppController {
                 );
             }
         }
+        $this->log($result);
         return $result;
     }
 

@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 body{
-    width:1700px;
+    width:1600px;
 }
 #container{
     padding:  0 15px 15px 15px;
@@ -22,13 +22,13 @@ body{
 }
 
 .gallery{
- 
     max-height: 800px;
     overflow-y: scroll;
     padding:5px;
+    min-width: 190px;
 }
 .gallery img{
-    padding-top:15px;
+    margin-top:10px;
     min-width:145px;
     min-height: 145px;
 }
@@ -63,7 +63,7 @@ body{
     font-size: 17px;
     list-style-type: none;
     line-height: 1.5;
-    
+
 }
 .imageview #imagedetails #imgname{
     padding-top:50px;
@@ -93,4 +93,14 @@ body{
 #enable{
     vertical-align: baseline;
     margin-right:3px;
+}
+.highlightthumb{
+    border:3px solid #ddd;
+    padding:4px;
+    border-radius: 10px;
+}
+
+.thumb{
+    padding:4px;
+
 }

@@ -10,10 +10,14 @@
             </tr>
             <?php foreach ($inactivesharings as $inactivesharing): ?>
                 <tr>
-                    <td><?php echo $this->Html->link($inactivesharing['Album']['title'], array('action' => 'view', $inactivesharing['Album']['id'], 1)); ?></td>
+                    <?php if (isset($inactivesharing['Album']['Upload'][0]['folder'])): ?>
+                        <td><?php echo $this->Html->link($inactivesharing['Album']['title'], array('action' => 'view', $inactivesharing['Album']['id'], $inactivesharing['Album']['Upload'][0]['folder'])); ?></td>
+                    <?php else: ?>
+                        <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $inactivesharing['Album']['id'])); ?></td>
+                    <?php endif; ?>  
                     <td><?php echo h($inactivesharing['Album']['User']['firstname']); ?> <?php echo h($inactivesharing['Album']['User']['lastname']); ?>&nbsp;</td>
                     <td><?php echo h($inactivesharing['Sharing']['created']); ?>&nbsp;</td>
-                    
+
                 <?php endforeach; ?>
             </tr>
         </table>

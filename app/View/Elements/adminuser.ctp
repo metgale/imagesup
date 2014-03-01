@@ -11,7 +11,11 @@
             </tr>
             <?php foreach ($sharings as $sharing): ?>
                 <tr>
-                    <td><?php echo $this->Html->link($sharing['Album']['title'], array('action' => 'view', $sharing['Album']['id'], 1)); ?></td>
+                    <?php if (isset($sharing['Album']['Upload'][0]['folder'])): ?>
+                        <td><?php echo $this->Html->link($sharing['Album']['title'], array('action' => 'view', $sharing['Album']['id'], $sharing['Album']['Upload'][0]['folder'])); ?></td>
+                    <?php else: ?>
+                        <td><?php echo $this->Html->link($album['Album']['title'], array('action' => 'view', $album['Album']['id'])); ?></td>
+                    <?php endif; ?>  
                     <td><?php echo h($sharing['Album']['User']['firstname']); ?>  <?php echo h($sharing['Album']['User']['lastname']); ?>&nbsp;</td>
                     <td><?php echo h($sharing['Sharing']['created']); ?>&nbsp;</td>
 
@@ -24,4 +28,5 @@
         <?php echo $this->BootstrapPaginator->counter(array('format' => __('Page {:page} of {:pages}, showing {:current} albums out of {:count} total, starting on album {:start}, ending on {:end}'))); ?>
         <?php echo $this->BootstrapPaginator->pagination(); ?>
     </div>
-</div>
+</div><?php
+

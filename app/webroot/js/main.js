@@ -6,7 +6,7 @@ $(function () {
 	$('#fileupload').fileupload({
 		autoUpload: true,
         url: '/albums/upload/' + albumId,
-		maxFileSize: 150000001, //50MB
+		maxFileSize: 50000000, //50MB
         previewCrop: false,
 		dataType: 'json',
 		disableImageResize: true,
@@ -15,7 +15,7 @@ $(function () {
 		limitConcurrentUploads: 1,
 		maxChunkSize: 0,
 		stop: function (e, data) {
-			window.location.href = '/albums/view/' + albumId + '/' + folder;
+			window.location.href = '/albums/view/' + albumId + '/' + folder + '/?success=true';
         },
 		start: function (e, data) {
 			$('.wait-message').show();
