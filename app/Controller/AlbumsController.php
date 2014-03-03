@@ -16,10 +16,7 @@ require_once APP . 'Lib' . DS . 'nanodicom' . DS . 'ExtractDataFromDiCOM.php';
  */
 class AlbumsController extends AppController {
 
-    public function beforeFilter() {
-        $this->Auth->allow('all');
-        parent::beforeFilter();
-    }
+    
 
     /**
      *  Layout
