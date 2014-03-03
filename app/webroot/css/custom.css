@@ -61,10 +61,12 @@ body{
 }
 .folders ul li{
     font-size: 17px;
-    list-style-type: none;
-    line-height: 1.5;
+    list-style-type: circle;
+    line-height: 2;
 
 }
+
+
 .imageview #imagedetails #imgname{
     padding-top:50px;
 }
@@ -103,4 +105,10 @@ body{
 .thumb{
     padding:4px;
 
+}
+.albumview .span4{
+    margin-left:2.5px;
+}
+.albumview {
+    margin-left: 0px;
 }

@@ -45,13 +45,13 @@ if (AuthComponent::user('userType') == 1) {
 }
 ?>
 
-<div class="row-fluid">
+<div class="row-fluid albumview">
     <h2><?php echo h($album['Album']['title']); ?> / <?php if (!empty($album['Upload'][0]['folder'])): ?>
             <span style='color:#0aaaf1'><?php echo $album['Upload'][0]['folder_title']; ?></span>
         <?php endif; ?>
     </h2>
 
-    <div class="span3">
+    <div class="span4">
         <div class="span6">
             <div class="folders text-left">
                 <h4>Subfolders</h4>
@@ -75,7 +75,7 @@ if (AuthComponent::user('userType') == 1) {
             </div>
         </div>
     </div>
-    <div class="span8">
+    <div class="span7">
         <div class="span8">
             <h4 id="imgname"><?php echo $image['Upload']['name']; ?></h4>
             <div class="imageview">
