@@ -1,5 +1,7 @@
 <?php
 
+//include 'nanodicom.php';
+
 class DicomExtractor {
    
    /* @var $varName String */
